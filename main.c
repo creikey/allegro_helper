@@ -16,16 +16,16 @@ int main ( void ) {
     if( al_catch_events( my_data ) == -1 ) {
       break;
     }
-    if( is_key_down(my_data, ALLEGRO_KEY_SPACE ) ) {
+    if( is_key_pressed(my_data, ALLEGRO_KEY_SPACE ) ) {
       printf( "space key down\n" );
     }
     if( my_data->key_down != my_data->key_up ) {
-      printf("Key pressed\n" );
+      //printf("Key pressed\n" );
     }
     if( get_mouse_pressed( my_data ).middle_button ) {
       printf( "Mouse pos: %f, %f\n", get_mouse_pos( my_data ).x, get_mouse_pos( my_data ).y );
     }
-    printf( "-- game_loop --\n" );
+    //printf( "-- game_loop --\n" );
   }
   al_easy_exit( my_data );
   //al_free( my_data );

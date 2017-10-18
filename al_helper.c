@@ -118,6 +118,21 @@ bool is_key_down( helper_data * in_data, int keycode ) {
   return al_key_down( &in_data->key_state, keycode );
 }
 
+bool is_key_pressed( helper_data * in_data, int keycode ) {
+  if( in_data->checked_keys[keycode] == true ) {
+    if(is_key_down(in_data, keycode) == true ) {
+      return false;
+    } else {
+      in_data->checked_keys[keycode] = false;
+      return false;
+    }
+  } else if( is_key_down( in_data, keycode ) == true ) {
+    in_data->checked_keys[keycode] = true;
+    return true;
+  }
+  return false;
+}
+
 //bool is_key_pressed( helper_data * in_data, int keycode ) {
 //
 //}

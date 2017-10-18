@@ -22,6 +22,7 @@ typedef struct _helper_data {
   ALLEGRO_KEYBOARD_STATE key_state;
   int key_down;
   int key_up;
+  bool checked_keys[ALLEGRO_KEY_MAX];
 } helper_data;
 
 typedef struct _vector {
