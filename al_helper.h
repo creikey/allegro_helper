@@ -1,9 +1,14 @@
 #ifndef H_AL_HELPER
 #define H_AL_HELPER
 
+#include <stdio.h>
 #include <allegro5/allegro.h>
 #include <stdio.h>
 
+typedef struct _vector {
+  float x;
+  float y;
+} vector;
 
 typedef struct _mouse_buttons {
   bool left_button;
@@ -20,17 +25,13 @@ typedef struct _helper_data {
   ALLEGRO_MOUSE_STATE mouse_state;
   mouse_buttons last_mouse;
   ALLEGRO_KEYBOARD_STATE key_state;
-  int key_down;
-  int key_up;
+  ALLEGRO_TIMER * fps_time;
+  bool keys[ ALLEGRO_KEY_MAX ];
+  bool last_keys[ ALLEGRO_KEY_MAX ];
   bool checked_keys[ALLEGRO_KEY_MAX];
 } helper_data;
 
-typedef struct _vector {
-  float x;
-  float y;
-} vector;
-
-
+void combine_vector( vector * rec, vector in );
 
 mouse_buttons get_mouse_buttons( helper_data * in_data );
 
@@ -38,8 +39,11 @@ mouse_buttons get_mouse_pressed( helper_data * in_data );
 
 vector get_mouse_pos( helper_data * in_data );
 
-void al_easy_init( helper_data * in_data, float display_x, float display_y, int display_flags, float r, float g, float b );
+vector new_vector( float inx, float iny );
 
+//void add_vector( vector * rec, vector in );
+
+void al_easy_init( helper_data * in_data, float display_x, float display_y, int display_flags, float fps, float r, float g, float b );
 void al_easy_exit( helper_data * in_data );
 
 int al_catch_events( helper_data * in_data );
@@ -50,5 +54,5 @@ bool is_key_pressed( helper_data * in_data, int keycode );
 
 void zero_bool( bool * in_bool, int size );
 
-void fix_keys( helper_data * in_data );
+void change_fps( helper_data * in_data, float in_fps );
 #endif

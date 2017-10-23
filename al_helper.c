@@ -2,16 +2,26 @@
 #include <allegro5/allegro.h>
 #include "al_helper.h"
 
-#define ALLEGRO_EVENT_KEY_DOWN 11
-#define ALLEGRO_EVENT_KEY_UP 12
-
 void zero_bool( bool * in_bool, int size ) {
   for( int i = 0; i < size; i++ ) {
     in_bool[i] = false;
   }
 }
 
-void al_easy_init( helper_data * in_data, float display_x, float display_y, int display_flags, float r, float g, float b ) {
+vector new_vector( float inx, float iny ) {
+  vector return_vec;
+  return_vec.x = inx;
+  return_vec.y = iny;
+  return return_vec;
+}
+
+void combine_vector( vector * rec, vector in ) {
+  rec->x += in.x;
+  rec->y += in.y;
+  return;
+}
+
+void al_easy_init( helper_data * in_data, float display_x, float display_y, int display_flags, float fps, float r, float g, float b ) {
   // Make the initial variables null
   in_data->display = NULL;
   in_data->event_queue = NULL;
@@ -28,6 +38,11 @@ void al_easy_init( helper_data * in_data, float display_x, float display_y, int 
   // Create the event queue and make sure it's there
   in_data->event_queue = al_create_event_queue();
   assert(in_data->event_queue);
+  // Create the timer and set the fps
+  in_data->fps_time = al_create_timer( 1.0/fps );
+  assert(in_data->fps_time);
+  // Register the timer as an event source
+  al_register_event_source( in_data->event_queue, al_get_timer_event_source( in_data->fps_time ) );
   // Register the display as an event source
   al_register_event_source( in_data->event_queue, al_get_display_event_source( in_data->display ) );
   // Register the keyboard and mouse as an event source
@@ -36,35 +51,45 @@ void al_easy_init( helper_data * in_data, float display_x, float display_y, int 
   in_data->clear_color = al_map_rgb(r,g,b);
   al_clear_to_color( in_data->clear_color );
   al_flip_display();
+  // Start the fps timer
+  al_start_timer( in_data->fps_time );
   // Done
   return;
 }
 
+void change_fps( helper_data * in_data, float in_fps ) {
+  al_set_timer_speed( in_data->fps_time, 1.0/in_fps );
+}
+
 void al_easy_exit( helper_data * in_data ) {
+  al_destroy_timer( in_data->fps_time );
   al_destroy_display( in_data->display );
   al_destroy_event_queue( in_data->event_queue );
 }
 
+// Returns -1 on display close, 0 on nothing, 1 on
 int al_catch_events( helper_data * in_data ) {
-  al_get_keyboard_state( &in_data->key_state );
   ALLEGRO_EVENT  ev;
   al_get_next_event( in_data->event_queue, &ev );
   if( ev.type != 0 ) {
-    if( ev.type == ALLEGRO_EVENT_KEY_DOWN ) {
-      in_data->key_down = ev.keyboard.keycode;
-    }
-    if( ev.type == ALLEGRO_EVENT_KEY_UP ) {
-      in_data->key_up = ev.keyboard.keycode;
-    }
     if( ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE ) {
       return -1;
     }
+    if( ev.type == ALLEGRO_EVENT_KEY_DOWN ) {
+      if( in_data->keys[ ev.keyboard.keycode ] == true ) {
+        in_data->last_keys[ ev.keyboard.keycode ] = true;
+      }
+      in_data->keys[ ev.keyboard.keycode ] = true;
+    }
+    if( ev.type == ALLEGRO_EVENT_KEY_UP ) {
+      in_data->keys[ ev.keyboard.keycode ] = false;
+      in_data->last_keys[ ev.keyboard.keycode ] = false;
+    }
+    if( ev.type == ALLEGRO_EVENT_TIMER && al_is_event_queue_empty( in_data->event_queue ) ) {
+      return 1;
+    }
   }
   return 0;
-}
-
-void fix_keys( helper_data * in_data ) {
-  in_data->key_up = in_data->key_down;
 }
 
 vector get_mouse_pos( helper_data * in_data ) {
@@ -115,22 +140,15 @@ mouse_buttons get_mouse_pressed( helper_data * in_data ) {
 }
 
 bool is_key_down( helper_data * in_data, int keycode ) {
-  return al_key_down( &in_data->key_state, keycode );
+  return in_data->keys[keycode];
 }
 
 bool is_key_pressed( helper_data * in_data, int keycode ) {
-  if( in_data->checked_keys[keycode] == true ) {
-    if(is_key_down(in_data, keycode) == true ) {
-      return false;
-    } else {
-      in_data->checked_keys[keycode] = false;
-      return false;
-    }
-  } else if( is_key_down( in_data, keycode ) == true ) {
-    in_data->checked_keys[keycode] = true;
+  if( in_data->last_keys[keycode] == false && in_data->keys[keycode] == true ) {
     return true;
+  } else {
+    return false;
   }
-  return false;
 }
 
 //bool is_key_pressed( helper_data * in_data, int keycode ) {
