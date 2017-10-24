@@ -1,28 +1,22 @@
-OBJ = al_helper.o
-LIBNAME = al_helper.zip
+OBJ = camengine.o
+LIBNAME = camengine.a
 
-a.out: main.o al_helper.o
-	gcc -Wall -o a.out main.o al_helper.o -lallegro -lallegro_primitives
+a.out: main.o $(OBJ)
+	gcc -Wall -o a.out main.o $(OBJ) -lallegro -lallegro_primitives
 
 export: $(OBJ)
-	mkdir al_helper
-	cp al_helper.o al_helper
-	cp al_helper.h al_helper
-	zip $(LIBNAME) al_helper/*
-	rm -r al_helper
+	ar ruv $(LIBNAME) $(OBJ)
 
-debug: main.o al_helper.o
-	gcc -Wall -o a.out main.o al_helper.o -lallegro -lallegro_primitives -g
+debug: main.o $(OBJ)
+	gcc -Wall -o a.out main.o $(OBJ) -lallegro -lallegro_primitives -g
 
 main.o: main.c
 	gcc -c main.c
 
-al_helper.o: al_helper.c al_helper.h
-	gcc -c al_helper.c
-
+camengine.o: camengine.c camengine.h
+	gcc -c camengine.c
 clean:
-	-rm -r al_helper
-	-rm al_helper.zip
+	-rm $(LIBNAME)
 	-rm *.o
 	-rm *.gch
 	-rm *.out

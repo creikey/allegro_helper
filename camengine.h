@@ -33,6 +33,8 @@ typedef struct _helper_data {
 
 void combine_vector( vector * rec, vector in );
 
+void change_fps( helper_data * in_data, float in_fps );
+
 mouse_buttons get_mouse_buttons( helper_data * in_data );
 
 mouse_buttons get_mouse_pressed( helper_data * in_data );

@@ -76,14 +76,11 @@ int al_catch_events( helper_data * in_data ) {
       return -1;
     }
     if( ev.type == ALLEGRO_EVENT_KEY_DOWN ) {
-      if( in_data->keys[ ev.keyboard.keycode ] == true ) {
-        in_data->last_keys[ ev.keyboard.keycode ] = true;
-      }
       in_data->keys[ ev.keyboard.keycode ] = true;
     }
     if( ev.type == ALLEGRO_EVENT_KEY_UP ) {
-      in_data->keys[ ev.keyboard.keycode ] = false;
       in_data->last_keys[ ev.keyboard.keycode ] = false;
+      in_data->keys[ ev.keyboard.keycode ] = false;
     }
     if( ev.type == ALLEGRO_EVENT_TIMER && al_is_event_queue_empty( in_data->event_queue ) ) {
       return 1;
@@ -134,6 +131,7 @@ mouse_buttons get_mouse_pressed( helper_data * in_data ) {
       in_data->last_mouse.middle_button = true;
     }
   } else {
+
     in_data->last_mouse.middle_button = false;
   }
   return to_return;
@@ -145,6 +143,7 @@ bool is_key_down( helper_data * in_data, int keycode ) {
 
 bool is_key_pressed( helper_data * in_data, int keycode ) {
   if( in_data->last_keys[keycode] == false && in_data->keys[keycode] == true ) {
+    in_data->last_keys[keycode] = true;
     return true;
   } else {
     return false;

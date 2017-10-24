@@ -24,7 +24,6 @@ int main ( void ) {
       if( get_mouse_pressed( my_data ).middle_button ) {
         printf( "Mouse pos: %f, %f\n", get_mouse_pos( my_data ).x, get_mouse_pos( my_data ).y );
       }
-      printf( "-- game_loop --\n" );
     }
   }
   al_easy_exit( my_data );
