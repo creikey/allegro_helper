@@ -1,6 +1,8 @@
+// /home/creikey/Documents/projects/pj_software/camengine
+
 #include <stdio.h>
 #include <allegro5/allegro.h>
-#include "al_helper.h"
+#include "operomnia-1/operomnia.h"
 
 void zero_bool( bool * in_bool, int size ) {
   for( int i = 0; i < size; i++ ) {

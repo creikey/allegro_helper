@@ -4,11 +4,7 @@
 #include <stdio.h>
 #include <allegro5/allegro.h>
 #include <stdio.h>
-
-typedef struct _vector {
-  float x;
-  float y;
-} vector;
+#include "vectors.h"
 
 typedef struct _mouse_buttons {
   bool left_button;
@@ -40,8 +36,6 @@ mouse_buttons get_mouse_buttons( helper_data * in_data );
 mouse_buttons get_mouse_pressed( helper_data * in_data );
 
 vector get_mouse_pos( helper_data * in_data );
-
-vector new_vector( float inx, float iny );
 
 //void add_vector( vector * rec, vector in );
 

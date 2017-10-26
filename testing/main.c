@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <allegro5/allegro.h>
 #include <malloc.h>
-#include "al_helper.h"
+#include <operomnia-1/operomnia.h>
 
 helper_data * my_data;
 void see_if_x();
