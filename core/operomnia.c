@@ -10,19 +10,6 @@ void zero_bool( bool * in_bool, int size ) {
   }
 }
 
-vector new_vector( float inx, float iny ) {
-  vector return_vec;
-  return_vec.x = inx;
-  return_vec.y = iny;
-  return return_vec;
-}
-
-void combine_vector( vector * rec, vector in ) {
-  rec->x += in.x;
-  rec->y += in.y;
-  return;
-}
-
 void al_easy_init( helper_data * in_data, float display_x, float display_y, int display_flags, float fps, float r, float g, float b ) {
   // Make the initial variables null
   in_data->display = NULL;
