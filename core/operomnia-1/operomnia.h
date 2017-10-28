@@ -3,16 +3,10 @@
 
 #include <stdio.h>
 #include <allegro5/allegro.h>
-#include <stdio.h>
 #include "vectors.h"
+#include "mouse.h"
 
-typedef struct _mouse_buttons {
-  bool left_button;
-  bool right_button;
-  bool middle_button;
-} mouse_buttons;
 
-static mouse_buttons empty_buttons;
 
 typedef struct _helper_data {
   ALLEGRO_DISPLAY *display;
@@ -31,11 +25,6 @@ void combine_vector( vector * rec, vector in );
 
 void change_fps( helper_data * in_data, float in_fps );
 
-mouse_buttons get_mouse_buttons( helper_data * in_data );
-
-mouse_buttons get_mouse_pressed( helper_data * in_data );
-
-vector get_mouse_pos( helper_data * in_data );
 
 //void add_vector( vector * rec, vector in );
 

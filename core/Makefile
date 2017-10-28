@@ -1,42 +1,25 @@
 #All of the object files
-OBJ = operomnia.o vectors.o
-
-LIBALLEG = liballeg.a
+OBJ = main.o operomnia.o vectors.o mouse.o keyboard.o
+FILENAME =operomnia
 
 #Includes should only be one thing
 INCLUDES = operomnia-1
 
-LIBNAME = liboperomnia.a
-
 .PHONY: clean
 
-export: $(LIBNAME)
-	mv $(LIBNAME) ..
-	cp -r $(INCLUDES) ..
+engine: $(OBJ)
+	gcc $(OBJ) -o $(FILENAME) $(shell pkg-config --libs --static allegro-static-5 allegro_primitives-static-5)
 
-install: export allegro_extract
-	sudo mv ../$(LIBNAME) /usr/lib
-	sudo chmod 0755 /usr/lib/$(LIBNAME)
-	sudo cp -r ../$(INCLUDES) /usr/include
-	rm -r ../$(INCLUDES)
-	#sudo mv ../$(INCLUDES) /usr/include
-	sudo chmod 0755 /usr/include/$(INCLUDES)
-	sudo ldconfig
-	echo "Successfully installed!"
+install: engine
 
-allegro_extract: export
+keyboard.o: $(INCLUDES)/keyboard.h
+	gcc -c keyboard.c
 
+mouse.o: $(INCLUDES)/mouse.h
+	gcc -c mouse.c
 
-$(LIBNAME): $(OBJ)
-	-mkdir library
-	cp $(OBJ) library
-	cp $(LIBNAME) library
-	cd library
-	ar -x $(LIBNAME)
-	ar -qc $(LIBNAME) *.o
-	mv $(LIBNAME) ..
-	cd ..
-	rm -r library
+main.o:
+	gcc -c main.c
 
 operomnia.o: operomnia.c $(INCLUDES)/operomnia.h
 	gcc -c operomnia.c
@@ -45,8 +28,8 @@ vectors.o: vectors.c $(INCLUDES)/vectors.h
 	gcc -c vectors.c
 
 clean:
-	-rm $(LIBNAME)
 	-rm *.o
+	-rm $(FILENAME)
 	-rm *.gch
 	-rm $(INCLUDES)/*.gch
 	-rm *.out

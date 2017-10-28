@@ -46,14 +46,14 @@ void al_easy_init( helper_data * in_data, float display_x, float display_y, int 
   return;
 }
 
-void change_fps( helper_data * in_data, float in_fps ) {
-  al_set_timer_speed( in_data->fps_time, 1.0/in_fps );
-}
-
 void al_easy_exit( helper_data * in_data ) {
   al_destroy_timer( in_data->fps_time );
   al_destroy_display( in_data->display );
   al_destroy_event_queue( in_data->event_queue );
+}
+
+void change_fps( helper_data * in_data, float in_fps ) {
+  al_set_timer_speed( in_data->fps_time, 1.0/in_fps );
 }
 
 // Returns -1 on display close, 0 on nothing, 1 on
@@ -76,67 +76,6 @@ int al_catch_events( helper_data * in_data ) {
     }
   }
   return 0;
-}
-
-vector get_mouse_pos( helper_data * in_data ) {
-  vector to_return;
-  al_get_mouse_state( &in_data->mouse_state );
-  to_return.x = in_data->mouse_state.x;
-  to_return.y = in_data->mouse_state.y;
-  return to_return;
-}
-
-mouse_buttons get_mouse_buttons( helper_data * in_data ) {
-  mouse_buttons to_return;
-  al_get_mouse_state( &in_data->mouse_state );
-  to_return.left_button = in_data->mouse_state.buttons & 1;
-  to_return.right_button = in_data->mouse_state.buttons & 2;
-  to_return.middle_button = in_data->mouse_state.buttons & 4;
-  return to_return;
-}
-
-mouse_buttons get_mouse_pressed( helper_data * in_data ) {
-  mouse_buttons to_return = empty_buttons;
-  mouse_buttons current_buttons = get_mouse_buttons( in_data );
-  if( current_buttons.left_button == true) {
-    if( in_data->last_mouse.left_button == false ) {
-      to_return.left_button = true;
-      in_data->last_mouse.left_button = true;
-    }
-  } else {
-    in_data->last_mouse.left_button = false;
-  }
-  if( current_buttons.right_button == true) {
-    if( in_data->last_mouse.right_button == false ) {
-      to_return.right_button = true;
-      in_data->last_mouse.right_button = true;
-    }
-  } else {
-    in_data->last_mouse.right_button = false;
-  }
-  if( current_buttons.middle_button == true) {
-    if( in_data->last_mouse.middle_button == false ) {
-      to_return.middle_button = true;
-      in_data->last_mouse.middle_button = true;
-    }
-  } else {
-
-    in_data->last_mouse.middle_button = false;
-  }
-  return to_return;
-}
-
-bool is_key_down( helper_data * in_data, int keycode ) {
-  return in_data->keys[keycode];
-}
-
-bool is_key_pressed( helper_data * in_data, int keycode ) {
-  if( in_data->last_keys[keycode] == false && in_data->keys[keycode] == true ) {
-    in_data->last_keys[keycode] = true;
-    return true;
-  } else {
-    return false;
-  }
 }
 
 //bool is_key_pressed( helper_data * in_data, int keycode ) {
