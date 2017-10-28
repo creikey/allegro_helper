@@ -11,5 +11,5 @@ int main ( int argc, char ** arg ) {
   add_script( my_program, scr_2 );
   compile_program( my_program );
   printf( "Finished compiling\n" );
-  free_scripts( my_program );
+  //free_scripts( my_program );
 }

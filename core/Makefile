@@ -10,7 +10,8 @@ INCLUDES = operomnia-1
 engine: $(OBJ)
 	gcc $(OBJ) -o $(FILENAME) $(shell pkg-config --libs --static allegro-static-5 allegro_primitives-static-5)
 
-install: engine
+export: engine
+	mv $(FILENAME) ..
 
 file.o: file.c $(INCLUDES)/file.h
 	gcc -c file.c
@@ -21,7 +22,7 @@ keyboard.o: keyboard.c $(INCLUDES)/keyboard.h
 mouse.o: mouse.c $(INCLUDES)/mouse.h
 	gcc -c mouse.c
 
-main.o:
+main.o: main.c
 	gcc -c main.c
 
 operomnia.o: operomnia.c $(INCLUDES)/operomnia.h

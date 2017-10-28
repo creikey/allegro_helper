@@ -17,15 +17,20 @@ oprogram * new_program( void ) {
 }
 
 void free_scripts( oprogram * in_prog ) {
+  printf( "Freeing scripts...\n" );
   oscript * current_script;
   oscript * last_script;
   current_script = in_prog->script_head;
-  while( current_script->next_script != NULL ) {
+  printf( "Preparing to iterate through scripts..!\n" );
+  while( current_script->next_script ) {
+    printf( "Iterating " );
     last_script = current_script;
     current_script = current_script->next_script;
     al_free( last_script );
   }
+  printf("\nFreeing the data!\n" );
   free( current_script );
+  printf( "Data freed.\n" );
 }
 
 int add_script( oprogram * in_prog, oscript * in_oscr ) {
@@ -60,16 +65,22 @@ int compile_program( oprogram * in_prog ) {
   // Traverse the linked list of script heads
   oscript * l_traverse = in_prog->script_head;
   printf( "Preparing to traverse files..!\n" );
-  while( !(l_traverse->next_script) ) {
-    printf( "Iterating...\n" );
-    printf( "appending oscript %s to the main\n", l_traverse->script_file );
-    l_traverse->script_fp = fopen( l_traverse->script_file, "r" );
-    // Append the characters
-    fputc( fgetc( l_traverse->script_fp ), in_prog->main_fp );
+  if( l_traverse ) {
+    while( !(l_traverse->next_script) ) {
+      printf( "Iterating...\n" );
+      printf( "appending oscript %s to the main\n", l_traverse->script_file );
+      l_traverse->script_fp = fopen( l_traverse->script_file, "r" );
+      // Append the characters
+      fputc( fgetc( l_traverse->script_fp ), in_prog->main_fp );
+    }
   }
   printf( "done linking .sf files\n" );
-  fclose( in_prog->main_fp );
-  fclose( l_traverse->script_fp );
+  /*if( !(in_prog->main_fp) ) {
+    fclose( in_prog->main_fp );
+  }
+  if( !(l_traverse->script_fp) ) {
+    fclose( l_traverse->script_fp );
+  }*/
   return 0;
 }
 
