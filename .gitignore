@@ -1,6 +1,11 @@
 # Prerequisites
 *.d
 
+# Custom operomnia stuf
+*.sf
+*.of
+operomnia
+
 # Object files
 *.o
 *.ko

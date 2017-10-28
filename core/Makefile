@@ -1,5 +1,5 @@
 #All of the object files
-OBJ = main.o operomnia.o vectors.o mouse.o keyboard.o
+OBJ = main.o operomnia.o vectors.o mouse.o keyboard.o file.o
 FILENAME =operomnia
 
 #Includes should only be one thing
@@ -12,10 +12,13 @@ engine: $(OBJ)
 
 install: engine
 
-keyboard.o: $(INCLUDES)/keyboard.h
+file.o: file.c $(INCLUDES)/file.h
+	gcc -c file.c
+
+keyboard.o: keyboard.c $(INCLUDES)/keyboard.h
 	gcc -c keyboard.c
 
-mouse.o: $(INCLUDES)/mouse.h
+mouse.o: mouse.c $(INCLUDES)/mouse.h
 	gcc -c mouse.c
 
 main.o:
