@@ -1,15 +1,35 @@
-OBJ = operomnia.o
-LIBNAME = operomnia.a
+#All of the object files
+OBJ = main.o operomnia.o vectors.o mouse.o keyboard.o
+FILENAME =operomnia
 
-export: $(OBJ)
-	ar ruv $(LIBNAME) $(OBJ)
-	mv $(LIBNAME) ..
+#Includes should only be one thing
+INCLUDES = operomnia-1
 
+.PHONY: clean
 
-operomnia.o: operomnia.c operomnia.h
-	gcc -c operomnia.c 
+engine: $(OBJ)
+	gcc $(OBJ) -o $(FILENAME) $(shell pkg-config --libs --static allegro-static-5 allegro_primitives-static-5)
+
+install: engine
+
+keyboard.o: $(INCLUDES)/keyboard.h
+	gcc -c keyboard.c
+
+mouse.o: $(INCLUDES)/mouse.h
+	gcc -c mouse.c
+
+main.o:
+	gcc -c main.c
+
+operomnia.o: operomnia.c $(INCLUDES)/operomnia.h
+	gcc -c operomnia.c
+
+vectors.o: vectors.c $(INCLUDES)/vectors.h
+	gcc -c vectors.c
+
 clean:
-	-rm $(LIBNAME)
 	-rm *.o
+	-rm $(FILENAME)
 	-rm *.gch
+	-rm $(INCLUDES)/*.gch
 	-rm *.out
