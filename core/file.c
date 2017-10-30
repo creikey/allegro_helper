@@ -26,16 +26,19 @@ error precompile_file( char * file_name, char * file_output ) {
   f_out = fopen( file_output, "w" );
 
   //char *fgets( char *buf, int n, FILE *fp );
+  // Reads one line of code
   char * str_buff = al_malloc( 256 );
   fgets( str_buff, 255, f_read );
-  // Iterate through the line
-  for( int i = 0; i < strlen(str_buff), i++ ) {
-    switch( str_buff[i] ) {
-      case '{':
+  // Variable to hold the current token
+  int token_size = 10;
+  static int empty_token[10];
+  char * token = al_malloc(token_size);
+  while( strlen(str_buff) > 3 ) {
+    // Iterate through the line
+    for( int i = 0; i < strlen(str_buff), i++ ) {
+      // TODO make a precompiler using the instruction_set.txt
     }
   }
-
-  fputc( 't', f_out );
   fclose( f_read );
   fclose( f_out );
 }

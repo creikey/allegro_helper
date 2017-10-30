@@ -1,0 +1,5 @@
+-- Instructions for the compiler --
+
+0x01 { bracket
+0x02 } bracket
+0x03 if statementhow
