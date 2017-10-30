@@ -2,92 +2,71 @@
 #include "operomnia-1/file.h"
 #include <allegro5/allegro.h>
 
-oscript * new_script( char * file_name ) {
-  oscript * to_return = al_malloc( sizeof *to_return );
-  to_return->script_fp = NULL;
-  to_return->script_file = file_name;
-  to_return->next_script = NULL;
-  return to_return;
-}
-
-oprogram * new_program( void ) {
-  oprogram * to_return;
-  to_return = al_malloc(sizeof( *to_return ));
-  return to_return;
-}
-
-void free_scripts( oprogram * in_prog ) {
-  printf( "Freeing scripts...\n" );
-  oscript * current_script;
-  oscript * last_script;
-  current_script = in_prog->script_head;
-  printf( "Preparing to iterate through scripts..!\n" );
-  while( current_script->next_script ) {
-    printf( "Iterating " );
-    last_script = current_script;
-    current_script = current_script->next_script;
-    al_free( last_script );
-  }
-  printf("\nFreeing the data!\n" );
-  free( current_script );
-  printf( "Data freed.\n" );
-}
-
-int add_script( oprogram * in_prog, oscript * in_oscr ) {
-  // Sees if they're null
-  if( in_prog == NULL || in_oscr == NULL ) {
-    fprintf( stderr, "in add script function null pointer passed\n" );
-  }
-  // Sets up struct to go to end of a linked list
-  oscript * get_end_script  = in_prog->script_head;
-  // If the head script isn't equal to null
-  if( get_end_script != NULL ) {
-    // Traverse the linked list until the next one is null
-    while( get_end_script->next_script != NULL ) {
-      get_end_script = get_end_script->next_script;
-    }
-    // Set it to the next one, making it null
-    get_end_script = get_end_script->next_script;
-  }
-  // Print the FILENAME
-  printf( "Appending filename %s to the program\n", in_oscr->script_file );
-  // Assign the file pointer to the new script
-  get_end_script = in_oscr;
-}
-
 // TODO make this function actually link
 // For now all it does is append all of the oscript files to the oprogram
-int compile_program( oprogram * in_prog ) {
-  printf( "Linking .sf files into one .of file...\n" );
-  // Make sure that the main script file is open
-  in_prog->main_fp = fopen( "main.of", "w" );
-  printf( "Opened main .of file...\n" );
-  // Traverse the linked list of script heads
-  oscript * l_traverse = in_prog->script_head;
-  printf( "Preparing to traverse files..!\n" );
-  if( l_traverse ) {
-    while( !(l_traverse->next_script) ) {
-      printf( "Iterating...\n" );
-      printf( "appending oscript %s to the main\n", l_traverse->script_file );
-      l_traverse->script_fp = fopen( l_traverse->script_file, "r" );
-      // Append the characters
-      fputc( fgetc( l_traverse->script_fp ), in_prog->main_fp );
+
+int init_linker( linker_data * edit_data ) {
+  printf( "Opening main file...\n" );
+  edit_data->mfp = fopen( "main.of", "w" );
+  printf( "Scanning directory for .sf files...\n" );
+  edit_data->my_dir = opendir(".");
+  if( edit_data->my_dir == NULL ) {
+    fprintf( stderr, "ERROR: UNABLE TO OPEN DIRECTORY\n" );
+    return -1;
+  }
+  int i = 0;
+  char * dot;
+  printf( "Adding scripts to list of files...\n" );
+  while( ( edit_data->sd=readdir(edit_data->my_dir) ) != NULL ) {
+    dot = strrchr( edit_data->sd->d_name, '.' );
+    if( dot && !strcmp(dot, ".sf" ) ) {
+      printf( "Adding file: %s to list of scripts\n", edit_data->sd->d_name );
+      // edit_data->file_names[i] = edit_data->sd->d_name;
+      edit_data->file_names[i] = al_malloc( 256 );
+      strcpy( edit_data->file_names[i], edit_data->sd->d_name );
+      i++;
     }
   }
-  printf( "done linking .sf files\n" );
-  /*if( !(in_prog->main_fp) ) {
-    fclose( in_prog->main_fp );
-  }
-  if( !(l_traverse->script_fp) ) {
-    fclose( l_traverse->script_fp );
-  }*/
+  edit_data->files = i;
+  printf( "Done scanning for scripts!\n" );
   return 0;
 }
 
-
-
+int link_program( linker_data * edit_data ) {
+  printf( "Beginning to link program...\n" );
+  if( !edit_data ) {
+    fprintf( stderr, "ERROR: NULL EDIT_DATA\n" );
+    return -1;
+  }
+  printf( "Traversing through the file_names and appending them to main.of...\n" );
+  FILE * current_file;
+  char to_put;
+  // Go through the file names and open them
+  for( int i = 0; i < edit_data->files; i++ ) {
+    // If the file isn't null
+    if( edit_data->file_names[i] != NULL ) {
+      printf( "Opening the file %s\n", edit_data->file_names[i] );
+      current_file = fopen( edit_data->file_names[i], "r" );
+    } else {
+      printf( "String at index %d is null!\n", i );
+    }
+    // If it opened successfully
+    if( current_file ) {
+      to_put = fgetc( current_file );
+      while( to_put != EOF ) {
+        fputc( to_put, edit_data->mfp );
+        to_put = fgetc( current_file );
+      }
+      printf( "Done appending file %s\n", edit_data->file_names[i] );
+    } else {
+      // If it didn't open
+      printf( "File %s was null!\n", edit_data->file_names[i] );
+    }
+  }
+  printf( "Done appending files...\n" );
+  return 0;
+}
 /*
-
 This is an example of what the 'compiler' would do
 1. Link all of the sf( script files )s into a .of( operomnia file )
 2. That's it

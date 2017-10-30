@@ -2,31 +2,23 @@
 #define H_FILE
 
 #include <stdio.h>
+#include <dirent.h>
 
-// The script struct
-// Representation of .sf file
-typedef struct _oscript {
-  FILE * script_fp;
-  char * script_file;
-  struct _oscript * next_script;
-} oscript;
+// Struct to hold linker data
+typedef struct _linker_data {
+  FILE * mfp;
+  DIR * my_dir;
+  struct dirent *sd;
+  int files;
+  char * file_names[];
+} linker_data;
 
-// The program file
-// Representation of a bunch of .sf files
-// And the main script
-typedef struct _oprogram {
-  FILE * main_fp;
-  oscript * script_head;
-} oprogram;
+int init_linker( linker_data * edit_data );
 
-int add_script( oprogram * in_prog, oscript * in_oscr );
+int link_program( linker_data * edit_data );
 
-int compile_program( oprogram * in_prog );
+//oscript * new_script( char * file_name );
 
-oscript * new_script( char * file_name );
-
-void free_scripts( oprogram * in_prog );
-
-oprogram * new_program( void );
+// free_scripts( oprogram * in_prog );
 
 #endif

@@ -3,13 +3,36 @@
 #include "operomnia-1/vectors.h"
 #include "operomnia-1/file.h"
 
+#include <sys/types.h>
+#include <dirent.h>
+#include <allegro5/allegro.h>
+
 int main ( int argc, char ** arg ) {
-  oprogram * my_program = new_program();
-  oscript * scr_1 = new_script( "scr_1.sf" );
-  oscript * scr_2 = new_script( "scr_2.sf" );
-  add_script( my_program, scr_1 );
-  add_script( my_program, scr_2 );
-  compile_program( my_program );
-  printf( "Finished compiling\n" );
-  //free_scripts( my_program );
+
+  /*printf( "Printing args...\n" );
+  for( int i = 0; i < argc; i++ ) {
+    printf( "%d is %s\n", i, arg[i] );
+  }
+  return 0;*/
+
+  printf( "Reading files...\n" );
+
+  /*DIR *dir;
+  struct dirent *sd;
+  dir = opendir(".");
+  if( !dir ) {
+    fprintf(stderr, "ERR: NULL FILE DIRECTORY\n" );
+    return -1;
+  }
+
+  while( ( sd=readdir(dir) ) != NULL ) {
+    printf("dir: %s\n", sd->d_name );
+  }
+
+  closedir( dir );*/
+
+  linker_data * l_dat = al_malloc( sizeof *l_dat );
+
+  init_linker( l_dat );
+  link_program( l_dat );
 }
