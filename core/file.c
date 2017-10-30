@@ -68,7 +68,10 @@ int init_linker( linker_data * edit_data ) {
         printf( "File %s found!\n", comp_file );
       } else {
         printf( "File %s doesn't exist...Creating\n", comp_file );
-        precompile_file( edit_data->sd->d_name, comp_file );
+        error precomp_data = precompile_file( edit_data->sd->d_name, comp_file );
+        if( precomp_data.panick == true ) {
+          fprintf( stderr, "ERROR: PRECOMPILER PANICK AT %d, %d\n", precomp_data.row, precomp_data.column );
+        }
         printf( "File successfully compiled!\n" );
       }
       printf( "Adding file: %s to list of scripts\n", comp_file );

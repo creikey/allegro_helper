@@ -6,6 +6,7 @@
 #include <stdbool.h>
 
 typedef struct _error {
+  bool panick;
   int row;
   int column;
 } error;
@@ -21,7 +22,7 @@ typedef struct _linker_data {
 
 bool file_exists( char * file_name );
 
-void precompile_file( char * file_name, char * file_output );
+error precompile_file( char * file_name, char * file_output );
 
 int init_linker( linker_data * edit_data );
 
