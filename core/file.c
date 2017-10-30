@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "operomnia-1/file.h"
+#include "operomnia-1/bytecode_reference.h"
 #include <allegro5/allegro.h>
 #include <unistd.h>
 #include <dirent.h>
@@ -31,12 +32,40 @@ error precompile_file( char * file_name, char * file_output ) {
   fgets( str_buff, 255, f_read );
   // Variable to hold the current token
   int token_size = 10;
-  static int empty_token[10];
+  static int empty_token[token_size];
   char * token = al_malloc(token_size);
-  while( strlen(str_buff) > 3 ) {
+  char current_char;
+  printf( "Clearing token with empty token\n" );
+  memcpy( token, empty_token, token_size );
+  while( strlen(str_buff) > 1 ) {
     // Iterate through the line
-    for( int i = 0; i < strlen(str_buff), i++ ) {
+    for( int i = 0; i < strlen(str_buff); i++ ) {
       // TODO make a precompiler using the instruction_set.txt
+
+      switch( token ) {
+        case "{":
+          fputc( f_out, OPEN_BRACKET );
+          memcpy( token, empty_token, token_size );
+          break;
+        case "}":
+          fputc( f_out, CLOSE_BRACKET );
+          memcpy( token, empty_token, token_size );
+          break;
+        case "if":
+          fputc( f_out, IF_STATEMENT );
+          memcpy( token, empty_token, token_size );
+          break;
+        default:
+          // Appends the character to the token
+          int i = 0;
+          for(; i<token_size; i++ ) {
+            if( token[i] == NULL ) {
+              break;
+            }
+          }
+          token[i] =
+
+      }
     }
   }
   fclose( f_read );

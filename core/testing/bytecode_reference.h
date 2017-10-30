@@ -1,0 +1,10 @@
+#ifndef H_BYTECODE_REFERENCE
+#define H_BYTECODE_REFERENCE
+
+#define OPEN_BRACKET 0x01
+#define CLOSE_BRACKET 0x02
+#define IF_STATEMENT 0x03
+
+
+
+#endif
