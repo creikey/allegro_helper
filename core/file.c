@@ -1,9 +1,38 @@
 #include <stdio.h>
 #include "operomnia-1/file.h"
 #include <allegro5/allegro.h>
+#include <unistd.h>
+#include <dirent.h>
+#include <stdio.h>
+#include <stdbool.h>
+
 
 // TODO make this function actually link
 // For now all it does is append all of the oscript files to the oprogram
+
+// Sees if the given file exists
+bool file_exists( char * file_name ) {
+  if( access( file_name, F_OK ) != -1 ) {
+      return true;
+  }
+  return false;
+}
+
+void precompile_file( char * file_name, char * file_output ) {
+  FILE * f_read;
+  FILE * f_out;
+  f_read = fopen( file_name, "r" );
+  f_out = fopen( file_output, "w" );
+
+  //char *fgets( char *buf, int n, FILE *fp );
+  //char * str_buff = al_malloc( 256 );
+
+
+
+  fputc( 't', f_out );
+  fclose( f_read );
+  fclose( f_out );
+}
 
 int init_linker( linker_data * edit_data ) {
   printf( "Opening main file...\n" );
@@ -20,10 +49,27 @@ int init_linker( linker_data * edit_data ) {
   while( ( edit_data->sd=readdir(edit_data->my_dir) ) != NULL ) {
     dot = strrchr( edit_data->sd->d_name, '.' );
     if( dot && !strcmp(dot, ".sf" ) ) {
-      printf( "Adding file: %s to list of scripts\n", edit_data->sd->d_name );
+      printf( "Found file %s...\n", edit_data->sd->d_name );
+      printf( "Attempting to find %sc...\n", edit_data->sd->d_name );
+      // Make a temporary variable one character longer
+      size_t len = strlen(edit_data->sd->d_name);
+      // One extra character for c, one for \0
+      char * comp_file = al_malloc( len+1+1 );
+      strcpy( comp_file, edit_data->sd->d_name );
+      comp_file[len] = 'c';
+      comp_file[len+1] = '\0';
+      if( file_exists(comp_file) ) {
+        printf( "File %s found!\n", comp_file );
+      } else {
+        printf( "File %s doesn't exist...Creating\n", comp_file );
+        precompile_file( edit_data->sd->d_name, comp_file );
+        printf( "File successfully compiled!\n" );
+      }
+      printf( "Adding file: %s to list of scripts\n", comp_file );
       // edit_data->file_names[i] = edit_data->sd->d_name;
       edit_data->file_names[i] = al_malloc( 256 );
-      strcpy( edit_data->file_names[i], edit_data->sd->d_name );
+      strcpy( edit_data->file_names[i], comp_file );
+      al_free( comp_file );
       i++;
     }
   }

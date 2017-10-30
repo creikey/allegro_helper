@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <dirent.h>
+#include <stdbool.h>
 
 // Struct to hold linker data
 typedef struct _linker_data {
@@ -12,6 +13,10 @@ typedef struct _linker_data {
   int files;
   char * file_names[];
 } linker_data;
+
+bool file_exists( char * file_name );
+
+void precompile_file( char * file_name, char * file_output );
 
 int init_linker( linker_data * edit_data );
 

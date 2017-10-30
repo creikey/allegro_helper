@@ -58,3 +58,4 @@ clean:
 	-rm *.gch
 	-rm $(INCLUDES)/*.gch
 	-rm *.out
+	-rm $(WINZIPNAME)

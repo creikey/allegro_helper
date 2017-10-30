@@ -4,6 +4,9 @@
 # Custom operomnia stuf
 *.sf
 *.of
+*.sfc
+*.zip
+*.swp
 operomnia
 
 # Object files
