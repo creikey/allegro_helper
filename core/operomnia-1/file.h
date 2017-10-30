@@ -5,6 +5,11 @@
 #include <dirent.h>
 #include <stdbool.h>
 
+typedef struct _error {
+  int row;
+  int column;
+} error;
+
 // Struct to hold linker data
 typedef struct _linker_data {
   FILE * mfp;

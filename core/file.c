@@ -18,16 +18,22 @@ bool file_exists( char * file_name ) {
   return false;
 }
 
-void precompile_file( char * file_name, char * file_output ) {
+error precompile_file( char * file_name, char * file_output ) {
+  error to_return;
   FILE * f_read;
   FILE * f_out;
   f_read = fopen( file_name, "r" );
   f_out = fopen( file_output, "w" );
 
   //char *fgets( char *buf, int n, FILE *fp );
-  //char * str_buff = al_malloc( 256 );
-
-
+  char * str_buff = al_malloc( 256 );
+  fgets( str_buff, 255, f_read );
+  // Iterate through the line
+  for( int i = 0; i < strlen(str_buff), i++ ) {
+    switch( str_buff[i] ) {
+      case '{':
+    }
+  }
 
   fputc( 't', f_out );
   fclose( f_read );
