@@ -19,6 +19,12 @@ bool file_exists( char * file_name ) {
   return false;
 }
 
+void set_string_char( char * in_char, size_t num_items, char to_set) {
+  for( int i = 0; i < num_items; i++ ) {
+    in_char[i] = to_set;
+  }
+}
+
 error precompile_file( char * file_name, char * file_output ) {
   error to_return;
   FILE * f_read;
@@ -29,44 +35,48 @@ error precompile_file( char * file_name, char * file_output ) {
   //char *fgets( char *buf, int n, FILE *fp );
   // Reads one line of code
   char * str_buff = al_malloc( 256 );
+  set_string_char( str_buff, 256, '\0' );
   fgets( str_buff, 255, f_read );
   // Variable to hold the current token
-  int token_size = 10;
-  static int empty_token[token_size];
+  const int token_size = 10;
   char * token = al_malloc(token_size);
-  char current_char;
   printf( "Clearing token with empty token\n" );
-  memcpy( token, empty_token, token_size );
+  set_string_char( token, token_size, NULL );
   while( strlen(str_buff) > 1 ) {
     // Iterate through the line
     for( int i = 0; i < strlen(str_buff); i++ ) {
       // TODO make a precompiler using the instruction_set.txt
-
       switch( token ) {
         case "{":
           fputc( f_out, OPEN_BRACKET );
-          memcpy( token, empty_token, token_size );
+          set_string_char( token, token_size, NULL );
           break;
         case "}":
           fputc( f_out, CLOSE_BRACKET );
-          memcpy( token, empty_token, token_size );
+          set_string_char( token, token_size, NULL );
           break;
         case "if":
           fputc( f_out, IF_STATEMENT );
-          memcpy( token, empty_token, token_size );
+          set_string_char( token, token_size, NULL );
           break;
         default:
           // Appends the character to the token
           int i = 0;
-          for(; i<token_size; i++ ) {
+          for(; i < token_size; i++ ) {
             if( token[i] == NULL ) {
               break;
             }
           }
-          token[i] =
-
+          // Set the token character to the line index
+          token[i] = str_buff[i];
+          break;
       }
+      printf( "Finished a line\n" );
     }
+    // Clear the line
+    str_buff = al_calloc( 256, 256 );
+    // Get another line
+    fgets( str_buff, 255, f_read );
   }
   fclose( f_read );
   fclose( f_out );

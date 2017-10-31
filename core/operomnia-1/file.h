@@ -20,6 +20,8 @@ typedef struct _linker_data {
   char * file_names[];
 } linker_data;
 
+void set_string_char( char * in_char, size_t num_items, char to_set);
+
 bool file_exists( char * file_name );
 
 error precompile_file( char * file_name, char * file_output );
