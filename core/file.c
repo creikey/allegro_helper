@@ -25,8 +25,16 @@ void set_string_char( char * in_char, size_t num_items, char to_set) {
   }
 }
 
+void debug_file( char * file_name ) {
+  printf( "Reading file %s...\n", file_name );
+  
+}
+
 error precompile_file( char * file_name, char * file_output ) {
-  error to_return = { false, 0, 0 };
+  error to_return;
+  to_return.panick = false;
+  to_return.row = 0;
+  to_return.column = 0;
   FILE * f_read;
   FILE * f_out;
   f_read = fopen( file_name, "r" );
@@ -45,14 +53,15 @@ error precompile_file( char * file_name, char * file_output ) {
   while( strlen(str_buff) > 1 ) {
     // Iterate through the line
     for( int i = 0; i < strlen(str_buff); i++ ) {
+      printf( "Token is %s at %d\n", token, i );
       // TODO make a precompiler using the instruction_set.txt
-      if( token == "{" ) {
+      if( !strcmp( token, "{" ) ) {
         fputc( OPEN_BRACKET, f_out );
         set_string_char( token, token_size, '\0' );
-      } else if( token == "}" ) {
+      } else if( !strcmp( token, "}" ) ) {
         fputc( CLOSE_BRACKET, f_out );
         set_string_char( token, token_size, '\0' );
-      } else if( token == "if" ) {
+      } else if( !strcmp( token, "if" ) ) {
         fputc( IF_STATEMENT, f_out );
         set_string_char( token, token_size, '\0' );
       } else {
@@ -62,6 +71,9 @@ error precompile_file( char * file_name, char * file_output ) {
           if( token[i] == '\0' ) {
             break;
           }
+        }
+        if( (i+1) == token_size ) {
+          printf( "I HAS GROWN BIGGER THAN TOKEN SIZE\n" );
         }
         // Set the token character to the line index
         token[i] = str_buff[i];
@@ -100,6 +112,7 @@ error precompile_file( char * file_name, char * file_output ) {
   }
   fclose( f_read );
   fclose( f_out );
+  return to_return;
 }
 
 int init_linker( linker_data * edit_data ) {
@@ -133,8 +146,9 @@ int init_linker( linker_data * edit_data ) {
         error precomp_data = precompile_file( edit_data->sd->d_name, comp_file );
         if( precomp_data.panick == true ) {
           fprintf( stderr, "ERROR: PRECOMPILER PANICK AT %d, %d\n", precomp_data.row, precomp_data.column );
+        } else {
+          printf( "File successfully compiled!\n" );
         }
-        printf( "File successfully compiled!\n" );
       }
       printf( "Adding file: %s to list of scripts\n", comp_file );
       // edit_data->file_names[i] = edit_data->sd->d_name;

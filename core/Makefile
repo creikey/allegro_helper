@@ -18,7 +18,7 @@ INCLUDES = operomnia-1
 .PHONY: clean
 
 engine: $(OBJ)
-	gcc $(OBJ) -o $(FILENAME) $(PKGCONFIG)
+	gcc -Wall $(OBJ) -o $(FILENAME) $(PKGCONFIG)
 
 windows: clean
 	$(WINCOMPILER) -c -I$(WININCLUDES)  $(CFILE)
