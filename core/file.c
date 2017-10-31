@@ -26,7 +26,7 @@ void set_string_char( char * in_char, size_t num_items, char to_set) {
 }
 
 error precompile_file( char * file_name, char * file_output ) {
-  error to_return;
+  error to_return = { false, 0, 0 };
   FILE * f_read;
   FILE * f_out;
   f_read = fopen( file_name, "r" );
@@ -41,40 +41,60 @@ error precompile_file( char * file_name, char * file_output ) {
   const int token_size = 10;
   char * token = al_malloc(token_size);
   printf( "Clearing token with empty token\n" );
-  set_string_char( token, token_size, NULL );
+  set_string_char( token, token_size, '\0' );
   while( strlen(str_buff) > 1 ) {
     // Iterate through the line
     for( int i = 0; i < strlen(str_buff); i++ ) {
       // TODO make a precompiler using the instruction_set.txt
-      switch( token ) {
+      if( token == "{" ) {
+        fputc( OPEN_BRACKET, f_out );
+        set_string_char( token, token_size, '\0' );
+      } else if( token == "}" ) {
+        fputc( CLOSE_BRACKET, f_out );
+        set_string_char( token, token_size, '\0' );
+      } else if( token == "if" ) {
+        fputc( IF_STATEMENT, f_out );
+        set_string_char( token, token_size, '\0' );
+      } else {
+        // Appends the character to the token
+        int i = 0;
+        for(; i < token_size; i++ ) {
+          if( token[i] == '\0' ) {
+            break;
+          }
+        }
+        // Set the token character to the line index
+        token[i] = str_buff[i];
+      }
+      /*switch( token ) {
         case "{":
           fputc( f_out, OPEN_BRACKET );
-          set_string_char( token, token_size, NULL );
+          set_string_char( token, token_size, '\0' );
           break;
         case "}":
           fputc( f_out, CLOSE_BRACKET );
-          set_string_char( token, token_size, NULL );
+          set_string_char( token, token_size, '\0' );
           break;
         case "if":
           fputc( f_out, IF_STATEMENT );
-          set_string_char( token, token_size, NULL );
+          set_string_char( token, token_size, '\0' );
           break;
         default:
           // Appends the character to the token
           int i = 0;
           for(; i < token_size; i++ ) {
-            if( token[i] == NULL ) {
+            if( token[i] == '\0' ) {
               break;
             }
           }
           // Set the token character to the line index
           token[i] = str_buff[i];
           break;
-      }
+      }*/
       printf( "Finished a line\n" );
     }
     // Clear the line
-    str_buff = al_calloc( 256, 256 );
+    set_string_char( str_buff, 256, '\0' );
     // Get another line
     fgets( str_buff, 255, f_read );
   }
