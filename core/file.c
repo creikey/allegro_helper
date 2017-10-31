@@ -27,7 +27,14 @@ void set_string_char( char * in_char, size_t num_items, char to_set) {
 
 void debug_file( char * file_name ) {
   printf( "Reading file %s...\n", file_name );
-  
+  FILE * my_file = fopen( file_name, "r" );
+  char cur = fgetc( my_file );
+  while( cur != EOF ) {
+    printf( "%c\n", cur );
+    cur = fgetc( my_file );
+  }
+  printf( "Finished debugging file %s\n", file_name );
+  return;
 }
 
 error precompile_file( char * file_name, char * file_output ) {
@@ -73,38 +80,13 @@ error precompile_file( char * file_name, char * file_output ) {
           }
         }
         if( (i+1) == token_size ) {
-          printf( "I HAS GROWN BIGGER THAN TOKEN SIZE\n" );
+          printf( "ERR: TOKEN OVERFLOW\n" );
         }
         // Set the token character to the line index
         token[i] = str_buff[i];
       }
-      /*switch( token ) {
-        case "{":
-          fputc( f_out, OPEN_BRACKET );
-          set_string_char( token, token_size, '\0' );
-          break;
-        case "}":
-          fputc( f_out, CLOSE_BRACKET );
-          set_string_char( token, token_size, '\0' );
-          break;
-        case "if":
-          fputc( f_out, IF_STATEMENT );
-          set_string_char( token, token_size, '\0' );
-          break;
-        default:
-          // Appends the character to the token
-          int i = 0;
-          for(; i < token_size; i++ ) {
-            if( token[i] == '\0' ) {
-              break;
-            }
-          }
-          // Set the token character to the line index
-          token[i] = str_buff[i];
-          break;
-      }*/
-      printf( "Finished a line\n" );
     }
+    printf( "Finished a line\n" );
     // Clear the line
     set_string_char( str_buff, 256, '\0' );
     // Get another line

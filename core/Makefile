@@ -34,7 +34,7 @@ windows: clean
 export: engine
 	mv $(FILENAME) ..
 
-file.o: file.c $(INCLUDES)/file.h
+file.o: file.c $(INCLUDES)/file.h $(INCLUDES)/bytecode_reference.h
 	gcc -c file.c
 
 keyboard.o: keyboard.c $(INCLUDES)/keyboard.h

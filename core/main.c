@@ -32,7 +32,9 @@ int main ( int argc, char ** arg ) {
   closedir( dir );*/
 
   linker_data * l_dat = al_malloc( sizeof *l_dat );
-
   init_linker( l_dat );
   link_program( l_dat );
+
+  debug_file( "main.of" );
+  return 0;
 }
