@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <allegro5/allegro.h>
-#include "operomnia-1/operomnia.h"
-#include "operomnia-1/mouse.h"
-#include "operomnia-1/vectors.h"
+#include <operomnia1/operomnia.h>
+#include <operomnia1/mouse.h>
+#include <operomnia1/vectors.h>
 
-mouse_buttons get_mouse_buttons( helper_data * in_data ) {
+mouse_buttons get_mouse_buttons( operomnia_data * in_data ) {
   mouse_buttons to_return;
   al_get_mouse_state( &in_data->mouse_state );
   to_return.left_button = in_data->mouse_state.buttons & 1;
@@ -13,7 +13,7 @@ mouse_buttons get_mouse_buttons( helper_data * in_data ) {
   return to_return;
 }
 
-mouse_buttons get_mouse_pressed( helper_data * in_data ) {
+mouse_buttons get_mouse_pressed( operomnia_data * in_data ) {
   mouse_buttons to_return = empty_buttons;
   mouse_buttons current_buttons = get_mouse_buttons( in_data );
   if( current_buttons.left_button == true) {
@@ -44,7 +44,7 @@ mouse_buttons get_mouse_pressed( helper_data * in_data ) {
   return to_return;
 }
 
-vector get_mouse_pos( helper_data * in_data ) {
+vector get_mouse_pos( operomnia_data * in_data ) {
   vector to_return;
   al_get_mouse_state( &in_data->mouse_state );
   to_return.x = in_data->mouse_state.x;

@@ -10,14 +10,14 @@ typedef struct _mouse_buttons {
   bool middle_button;
 } mouse_buttons;
 
-typedef struct _helper_data helper_data;
+typedef struct _operomnia_data operomnia_data;
 
 static mouse_buttons empty_buttons;
 
-mouse_buttons get_mouse_buttons( helper_data * in_data );
+mouse_buttons get_mouse_buttons( operomnia_data * in_data );
 
-mouse_buttons get_mouse_pressed( helper_data * in_data );
+mouse_buttons get_mouse_pressed( operomnia_data * in_data );
 
-vector get_mouse_pos( helper_data * in_data );
+vector get_mouse_pos( operomnia_data * in_data );
 
 #endif
