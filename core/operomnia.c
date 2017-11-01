@@ -1,5 +1,3 @@
-// /home/creikey/Documents/projects/pj_software/camengine
-
 #include <stdio.h>
 #include <allegro5/allegro.h>
 #include "core-includes/operomnia.h"
@@ -10,7 +8,7 @@ void zero_bool( bool * in_bool, int size ) {
   }
 }
 
-void init_op( helper_data * in_data, float display_x, float display_y, int display_flags, float fps, float r, float g, float b ) {
+void init_op( operomnia_data * in_data, float display_x, float display_y, int display_flags, float fps, float r, float g, float b ) {
   // Make the initial variables null
   in_data->display = NULL;
   in_data->event_queue = NULL;
@@ -46,25 +44,25 @@ void init_op( helper_data * in_data, float display_x, float display_y, int displ
   return;
 }
 
-void exit_op( helper_data * in_data ) {
+void exit_op( operomnia_data * in_data ) {
   al_destroy_timer( in_data->fps_time );
   al_destroy_display( in_data->display );
   al_destroy_event_queue( in_data->event_queue );
 }
 
-void change_fps( helper_data * in_data, float in_fps ) {
+void change_fps( operomnia_data * in_data, float in_fps ) {
   al_set_timer_speed( in_data->fps_time, 1.0/in_fps );
 }
 
 bool check_run( int in_check ) {
-  if( in_check == -1 ) {
+  if( in_check == 1 ) {
     return true;
   }
   return false;
 }
 
 // Returns -1 on display close, 0 on nothing, 1 on
-int catch_events( helper_data * in_data ) {
+int catch_events( operomnia_data * in_data ) {
   ALLEGRO_EVENT  ev;
   al_get_next_event( in_data->event_queue, &ev );
   if( ev.type != 0 ) {
