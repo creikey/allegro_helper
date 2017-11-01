@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <allegro5/allegro.h>
-#include "operomnia-1/operomnia.h"
+#include "core-includes/operomnia.h"
 
 void zero_bool( bool * in_bool, int size ) {
   for( int i = 0; i < size; i++ ) {
@@ -10,7 +10,7 @@ void zero_bool( bool * in_bool, int size ) {
   }
 }
 
-void al_easy_init( helper_data * in_data, float display_x, float display_y, int display_flags, float fps, float r, float g, float b ) {
+void init_op( helper_data * in_data, float display_x, float display_y, int display_flags, float fps, float r, float g, float b ) {
   // Make the initial variables null
   in_data->display = NULL;
   in_data->event_queue = NULL;
@@ -46,7 +46,7 @@ void al_easy_init( helper_data * in_data, float display_x, float display_y, int 
   return;
 }
 
-void al_easy_exit( helper_data * in_data ) {
+void exit_op( helper_data * in_data ) {
   al_destroy_timer( in_data->fps_time );
   al_destroy_display( in_data->display );
   al_destroy_event_queue( in_data->event_queue );
@@ -56,8 +56,15 @@ void change_fps( helper_data * in_data, float in_fps ) {
   al_set_timer_speed( in_data->fps_time, 1.0/in_fps );
 }
 
+bool check_run( int in_check ) {
+  if( in_check == -1 ) {
+    return true;
+  }
+  return false;
+}
+
 // Returns -1 on display close, 0 on nothing, 1 on
-int al_catch_events( helper_data * in_data ) {
+int catch_events( helper_data * in_data ) {
   ALLEGRO_EVENT  ev;
   al_get_next_event( in_data->event_queue, &ev );
   if( ev.type != 0 ) {
@@ -77,7 +84,3 @@ int al_catch_events( helper_data * in_data ) {
   }
   return 0;
 }
-
-//bool is_key_pressed( helper_data * in_data, int keycode ) {
-//
-//}
