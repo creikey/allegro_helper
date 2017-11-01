@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <allegro5/allegro.h>
-#include "core-includes/operomnia.h"
+#include <operomnia1/operomnia.h>
 
 void zero_bool( bool * in_bool, int size ) {
   for( int i = 0; i < size; i++ ) {
