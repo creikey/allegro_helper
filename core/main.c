@@ -32,7 +32,10 @@ int main ( int argc, char ** arg ) {
   closedir( dir );*/
 
   linker_data * l_dat = al_malloc( sizeof *l_dat );
-  init_linker( l_dat );
+  if( init_linker( l_dat ) ==  -1 ) {
+    fprintf( stderr, "FATAL ERROR DURING LINKING\n" );
+    return -1;
+  }
   link_program( l_dat );
 
   debug_file( "main.of" );

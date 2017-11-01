@@ -1,3 +1,0 @@
-{ bracket
-} bracket
-if statement
