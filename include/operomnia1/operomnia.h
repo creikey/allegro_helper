@@ -6,6 +6,8 @@
 #include "vectors.h"
 #include "mouse.h"
 
+#define WINDOWED ALLEGRO_WINDOWED
+
 typedef struct _operomnia_data {
   ALLEGRO_DISPLAY *display;
   ALLEGRO_EVENT_QUEUE *event_queue;
