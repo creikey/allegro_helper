@@ -5,6 +5,8 @@
 #include <allegro5/allegro.h>
 #include "vectors.h"
 #include "mouse.h"
+#include "keyboard.h"
+#include "memory.h"
 
 #define WINDOWED ALLEGRO_WINDOWED
 

@@ -1,7 +1,7 @@
 # $(shell pkg-config --libs --static allegro-static-5 allegro_primitives-static-5)
 # Dependant on platform
 INCLUDE=/home/creikey/Documents/projects/pj_software/operomnia/include
-LIBNAME=liboperomnia.a
+LIBNAME=liboperomnia
 
 PKG_CONFIG = src/core/liboperomnia.pc
 CORE_OBJECTS = keyboard.o mouse.o operomnia.o vectors.o memory.o
@@ -16,16 +16,32 @@ include/operomnia1/operomnia.h \
 include/operomnia1/vectors.h \
 include/operomina1/memory.h
 
+DRAW_PKG_CONFIG = src/draw/liboperomnia_draw.pc
+DRAW_OBJECTS = draw.o
+DRAW_C_FILES = src/draw/draw.c
+DRAW_HEADERS = include/operomina1/draw/draw.h
+
 .PHONY: clean
 
 core: $(CORE_OBJECTS)
-	ar rcs $(LIBNAME) $(CORE_OBJECTS)
+	ar rcs $(LIBNAME).a $(CORE_OBJECTS)
 
-install: core
+draw: $(DRAW_OBJECTS)
+	ar rcs $(LIBNAME)_draw.a $(DRAW_OBJECTS)
+
+install: core draw
+	# Install the header files
 	sudo cp -r include/operomnia1 /usr/local/include
-	sudo cp $(LIBNAME) /usr/local/lib
+	# Install the core library
+	sudo cp $(LIBNAME).a /usr/local/lib
 	sudo cp $(PKG_CONFIG) /usr/lib/pkgconfig
+	# Install the draw library
+	sudo cp $(LIBNAME)_draw.a /usr/local/lib
+	sudo cp $(DRAW_PKG_CONFIG) /usr/lib/pkgconfig
 	sudo ldconfig
+
+draw.o: src/draw/draw.c include/operomnia1/draw/draw.h
+	gcc -c -I$(INCLUDE) src/draw/draw.c
 
 keyboard.o: src/core/keyboard.c include/operomnia1/keyboard.h
 	gcc -c -I$(INCLUDE) src/core/keyboard.c
@@ -43,5 +59,6 @@ memory.o: src/core/memory.c include/operomnia1/memory.h
 	gcc -c -I$(INCLUDE) src/core/memory.c
 
 clean:
-	-rm $(LIBNAME)
+	-rm $(LIBNAME)_draw.a
+	-rm $(LIBNAME).a
 	-rm *.o
