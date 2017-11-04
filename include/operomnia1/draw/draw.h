@@ -7,6 +7,7 @@
 
 #include <allegro5/allegro.h>
 #include <operomnia1/vectors.h>
+#include <operomnia1/draw/image.h>
 
 typedef ALLEGRO_COLOR op_color;
 

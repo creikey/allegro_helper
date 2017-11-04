@@ -33,7 +33,7 @@ bool check_run( int in_check );
 void zero_bool( bool * in_bool, int size );
 
 // Initializes operomnia
-void init_op( operomnia_data * in_data, float display_x, float display_y, int display_flags, float fps, float r, float g, float b );
+void init_op( operomnia_data * in_data, float display_x, float display_y, bool anti_alias, int display_flags, float fps, float r, float g, float b );
 
 // Safely exits operomnia
 void exit_op( operomnia_data * in_data );

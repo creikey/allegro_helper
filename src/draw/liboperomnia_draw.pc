@@ -6,5 +6,11 @@ Name: operomnia_draw
 Description: The draw library to help with C game development
 Version: ${version}
 Libs: -L${prefix}/lib -loperomnia -loperomnia_draw
-Libs.private: -lallegro_primitives-static -lallegro-static -lXi -lXpm -lm -lpthread -lSM -lICE -lX11 -lXext -lXcursor -lXinerama -lXrandr -lGL -lGLU
+Libs.private: -lallegro_main-static \
+-lallegro-static \
+-lallegro_image-static \
+-lpng -lz -ljpeg \
+-lallegro_primitives-static \
+-lXi -lXpm -lm -lpthread -lSM -lICE -lX11 \
+-lXext -lXcursor -lXinerama -lXrandr -lGL -lGLU
 Cflags: -I${includedir}/operomnia1

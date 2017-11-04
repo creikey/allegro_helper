@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_image.h>
 #include <operomnia1/operomnia.h>
 
 void zero_bool( bool * in_bool, int size ) {
@@ -9,7 +10,7 @@ void zero_bool( bool * in_bool, int size ) {
   }
 }
 
-void init_op( operomnia_data * in_data, float display_x, float display_y, int display_flags, float fps, float r, float g, float b ) {
+void init_op( operomnia_data * in_data, float display_x, float display_y, bool anti_alias, int display_flags, float fps, float r, float g, float b ) {
   // Make the initial variables null
   in_data->display = NULL;
   in_data->event_queue = NULL;
@@ -20,6 +21,11 @@ void init_op( operomnia_data * in_data, float display_x, float display_y, int di
   assert( al_install_mouse() );
   // Change the window's settings
   al_set_new_display_flags( display_flags );
+  // Checks for anti anti_alias
+  if( anti_alias ) {
+    al_set_new_display_option(ALLEGRO_SAMPLE_BUFFERS, 1, ALLEGRO_SUGGEST);
+    al_set_new_display_option(ALLEGRO_SAMPLES, 8, ALLEGRO_SUGGEST);
+  }
   // Create the display and make sure it's there
   in_data->display = al_create_display( display_x, display_y );
   assert(in_data->display);
@@ -31,6 +37,8 @@ void init_op( operomnia_data * in_data, float display_x, float display_y, int di
   assert(in_data->fps_time);
   // Initialize allegro primitives
   al_init_primitives_addon();
+  // Initialize the allegro image addon
+  al_init_image_addon();
   // Register the timer as an event source
   al_register_event_source( in_data->event_queue, al_get_timer_event_source( in_data->fps_time ) );
   // Register the display as an event source
