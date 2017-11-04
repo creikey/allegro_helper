@@ -58,21 +58,34 @@ void scale_image( image * in_image, float scale_fact ) {
 // Displays the target image with the right display flags
 void draw_image( image * in_image, vector pos ) {
   if( in_image->rotate ) {
+    if( in_image->scale ) {
+      al_draw_scaled_rotated_bitmap( in_image->image_data, \
+        in_image->pivot_point.x,\
+        in_image->pivot_point.y,\
+        pos.x,\
+        pos.y,\
+        in_image->scale_influence,\
+        in_image->scale_influence,\
+        in_image->rotation,\
+        in_image->draw_flags\
+      );
+      return;
+    }
     al_draw_rotated_bitmap( in_image->image_data, in_image->pivot_point.x, in_image->pivot_point.y, pos.x, pos.y, in_image->rotation, in_image->draw_flags );
     return;
   }
   if( in_image->scale ) {
     al_draw_scaled_bitmap( in_image->image_data, \
-    0,\
-    0,\
-    in_image->original_scale.x,\
-    in_image->original_scale.y,\
-    pos.x,\
-    pos.y,\
-    in_image->original_scale.x*in_image->scale_influence,\
-    in_image->original_scale.y*in_image->scale_influence,\
-    in_image->draw_flags\
-  );
+      0,\
+      0,\
+      in_image->original_scale.x,\
+      in_image->original_scale.y,\
+      pos.x,\
+      pos.y,\
+      in_image->original_scale.x*in_image->scale_influence,\
+      in_image->original_scale.y*in_image->scale_influence,\
+      in_image->draw_flags\
+    );
   return;
   }
   al_draw_bitmap( in_image->image_data, pos.x, pos.y, in_image->draw_flags );
