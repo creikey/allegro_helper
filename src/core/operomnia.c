@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
 #include <operomnia1/operomnia.h>
 
 void zero_bool( bool * in_bool, int size ) {
@@ -28,6 +29,8 @@ void init_op( operomnia_data * in_data, float display_x, float display_y, int di
   // Create the timer and set the fps
   in_data->fps_time = al_create_timer( 1.0/fps );
   assert(in_data->fps_time);
+  // Initialize allegro primitives
+  al_init_primitives_addon();
   // Register the timer as an event source
   al_register_event_source( in_data->event_queue, al_get_timer_event_source( in_data->fps_time ) );
   // Register the display as an event source
