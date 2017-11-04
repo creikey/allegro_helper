@@ -4,17 +4,19 @@ INCLUDE=/home/creikey/Documents/projects/pj_software/operomnia/include
 LIBNAME=liboperomnia
 
 PKG_CONFIG = src/core/liboperomnia.pc
-CORE_OBJECTS = keyboard.o mouse.o operomnia.o vectors.o memory.o
+CORE_OBJECTS = keyboard.o mouse.o operomnia.o vectors.o memory.o threads.o
 CORE_C_FILES = src/core/keyboard.c \
 src/core/mouse.c \
 src/core/operomnia.c \
 src/core/vectors.c \
-src/core/memory.c
+src/core/memory.c \
+src/core/threads.c
 CORE_HEADERS = include/operomnia1/keyboard.h \
 include/operomnia1/mouse.h \
 include/operomnia1/operomnia.h \
 include/operomnia1/vectors.h \
-include/operomina1/memory.h
+include/operomina1/memory.h \
+include/operomnia1/threads.h
 
 DRAW_PKG_CONFIG = src/draw/liboperomnia_draw.pc
 DRAW_OBJECTS = draw.o image.o
@@ -39,6 +41,9 @@ install: core draw
 	sudo cp $(LIBNAME)_draw.a /usr/local/lib
 	sudo cp $(DRAW_PKG_CONFIG) /usr/lib/pkgconfig
 	sudo ldconfig
+
+threads.o: src/core/threads.c include/operomnia1/threads.h
+	gcc -c -I$(INCLUDE) src/core/threads.c
 
 image.o: src/draw/image.c include/operomnia1/draw/image.h
 	gcc  -c -I$(INCLUDE) src/draw/image.c
