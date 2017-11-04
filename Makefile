@@ -5,24 +5,27 @@ LIBNAME=liboperomnia
 
 PKG_CONFIG = src/core/liboperomnia.pc
 CORE_OBJECTS = keyboard.o mouse.o operomnia.o vectors.o memory.o threads.o \
-timers.o
+timers.o \
+file.o
 CORE_C_FILES = src/core/keyboard.c \
 src/core/mouse.c \
 src/core/operomnia.c \
 src/core/vectors.c \
 src/core/memory.c \
 src/core/threads.c \
-src/core/timers.c
+src/core/timers.c \
+src/core/file.c
 CORE_HEADERS = include/operomnia1/keyboard.h \
 include/operomnia1/mouse.h \
 include/operomnia1/operomnia.h \
 include/operomnia1/vectors.h \
 include/operomina1/memory.h \
 include/operomnia1/threads.h \
-include/operomnia1/timers.h
+include/operomnia1/timers.h \
+include/operomnia1/file.h
 
 DRAW_PKG_CONFIG = src/draw/liboperomnia_draw.pc
-DRAW_OBJECTS = draw.o image.o sprite.o
+DRAW_OBJECTS = draw.o image.o sprite.o file.o
 DRAW_C_FILES = src/draw/draw.c src/draw/image.c src/draw/sprite.c
 DRAW_HEADERS = include/operomina1/draw/draw.h \
 include/operomina1/draw/image.h \
@@ -46,6 +49,9 @@ install: core draw
 	sudo cp $(LIBNAME)_draw.a /usr/local/lib
 	sudo cp $(DRAW_PKG_CONFIG) /usr/lib/pkgconfig
 	sudo ldconfig
+
+file.o: src/core/file.c include/operomnia1/file.h
+	gcc -c -I$(INCLUDE) src/core/file.c
 
 timers.o: src/core/timers.c include/operomnia1/threads.h
 	gcc -c -I$(INCLUDE) src/core/timers.c

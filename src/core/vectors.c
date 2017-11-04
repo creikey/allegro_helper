@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <allegro5/allegro.h>
-#include "operomnia-1/vectors.h"
+#include <operomnia1/vectors.h>
 
 vector new_vector( float inx, float iny ) {
   vector return_vec;
