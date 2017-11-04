@@ -19,9 +19,11 @@ include/operomina1/memory.h \
 include/operomnia1/threads.h
 
 DRAW_PKG_CONFIG = src/draw/liboperomnia_draw.pc
-DRAW_OBJECTS = draw.o image.o
-DRAW_C_FILES = src/draw/draw.c
-DRAW_HEADERS = include/operomina1/draw/draw.h
+DRAW_OBJECTS = draw.o image.o sprite.o
+DRAW_C_FILES = src/draw/draw.c src/draw/image.c src/draw/sprite.c
+DRAW_HEADERS = include/operomina1/draw/draw.h \
+include/operomina1/draw/image.h \
+include/operomnia1/draw/sprite.h
 
 .PHONY: clean
 
@@ -41,6 +43,9 @@ install: core draw
 	sudo cp $(LIBNAME)_draw.a /usr/local/lib
 	sudo cp $(DRAW_PKG_CONFIG) /usr/lib/pkgconfig
 	sudo ldconfig
+
+sprite.o: src/draw/sprite.c include/operomnia1/draw/sprite.h
+	gcc -c -I$(INCLUDE) src/draw/sprite.c
 
 threads.o: src/core/threads.c include/operomnia1/threads.h
 	gcc -c -I$(INCLUDE) src/core/threads.c
