@@ -10,8 +10,9 @@ frame * create_header_frame( char * in_frame_path ) {
   // Create the initial memory
   frame * to_return = op_malloc( sizeof *to_return );
   //Initialize the values
-  assert( to_return->frame_data = al_load_bitmap( in_frame_path ) );
-  //assert( to_return->frame_data = al_load_bitmap( "test/1.png" ) );
+  printf( "Reading file %s\n", in_frame_path );
+  //assert( to_return->frame_data = al_load_bitmap( in_frame_path ) );
+  assert( to_return->frame_data = al_load_bitmap( "test/3.png" ) );
   to_return->frame_name = op_malloc( strlen(in_frame_path) );
   strcpy( to_return->frame_name, in_frame_path );
   to_return->next_frame = NULL;
