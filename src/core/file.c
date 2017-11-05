@@ -15,20 +15,18 @@ bool ends_with(const char *str, const char *suffix) {
 }
 
 char * fix_directory( const char * in_str ) {
-  char * to_prepend;
   if( in_str[strlen(in_str)-1] == '/' ) {
-    to_prepend = op_malloc( strlen(in_str) );
-    strcpy( to_prepend, in_str );
+    //char to_prepend[strlen(in_str)];
+    size_t str_size = strlen( in_str ) + 1;
+    char * to_prepend = op_malloc( str_size );
+    memcpy( to_prepend, in_str, str_size );
+    return to_prepend;
   } else {
-    to_prepend = op_malloc( strlen(in_str) + 1+1 );
-    strcpy( to_prepend, in_str );
-    to_prepend[ strlen(to_prepend) ] = '/';
-    to_prepend[ strlen(to_prepend)+10 ] = '\0';
-    printf( "Fixed directory: " );
-    for( int i = 0; i < strlen(to_prepend); i++ ) {
-      putchar( to_prepend[i] );
-    }
-    putchar( '\n' );
+    size_t str_size = strlen( in_str ) + 1;
+    char * to_prepend = op_malloc( str_size+1 );
+    memcpy( to_prepend, in_str, str_size );
+    to_prepend[str_size-1] = '/';
+    to_prepend[str_size] = '\0';
+    return to_prepend;
   }
-  return to_prepend;
 }
