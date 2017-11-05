@@ -31,13 +31,17 @@ DRAW_HEADERS = include/operomina1/draw/draw.h \
 include/operomina1/draw/image.h \
 include/operomnia1/draw/sprite.h
 
-.PHONY: clean
+.PHONY: clean headers
 
 core: $(CORE_OBJECTS)
 	ar rcs $(LIBNAME).a $(CORE_OBJECTS)
 
 draw: $(DRAW_OBJECTS)
 	ar rcs $(LIBNAME)_draw.a $(DRAW_OBJECTS)
+
+headers:
+	# Install the header files
+	sudo cp -r include/operomnia1 /usr/local/include
 
 install: core draw
 	# Install the header files
