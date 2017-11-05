@@ -23,7 +23,7 @@ char * fix_directory( const char * in_str ) {
     to_prepend = op_malloc( strlen(in_str) + 1+1 );
     strcpy( to_prepend, in_str );
     to_prepend[ strlen(to_prepend) ] = '/';
-    to_prepend[ strlen(to_prepend)+1 ] = '\0';
+    to_prepend[ strlen(to_prepend)+10 ] = '\0';
   }
   return to_prepend;
 }

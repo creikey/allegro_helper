@@ -46,10 +46,13 @@ headers:
 install: core draw
 	# Install the header files
 	sudo cp -r include/operomnia1 /usr/local/include
+	sudo cp -r include/operomnia1 /usr/include
 	# Install the core library
 	sudo cp $(LIBNAME).a /usr/local/lib
+	sudo cp $(LIBNAME).a /usr/lib
 	sudo cp $(PKG_CONFIG) /usr/lib/pkgconfig
 	# Install the draw library
+	sudo cp $(LIBNAME)_draw.a /usr/lib
 	sudo cp $(LIBNAME)_draw.a /usr/local/lib
 	sudo cp $(DRAW_PKG_CONFIG) /usr/lib/pkgconfig
 	sudo ldconfig
