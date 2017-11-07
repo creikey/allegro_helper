@@ -19,6 +19,8 @@ typedef struct sprite {
   frame * frames;
 } sprite;
 
+void read_frames( frame * head_frame );
+
 sprite * load_sprite( const char * sprite_dir, float in_fps );
 
 void append_frame( frame * head_frame, char * in_frame_path );
