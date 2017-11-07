@@ -3,10 +3,12 @@
 INCLUDE=/home/creikey/Documents/projects/pj_software/operomnia/include
 LIBNAME=liboperomnia
 
-PKG_CONFIG = src/core/liboperomnia.pc
-CORE_OBJECTS = keyboard.o mouse.o operomnia.o vectors.o memory.o threads.o \
+PKG_CONFIG = src/core/$(LIBNAME).pc
+CORE_OBJECTS = error.o keyboard.o mouse.o operomnia.o vectors.o memory.o \
+threads.o \
 timers.o \
 file.o
+
 CORE_C_FILES = src/core/keyboard.c \
 src/core/mouse.c \
 src/core/operomnia.c \
@@ -14,7 +16,8 @@ src/core/vectors.c \
 src/core/memory.c \
 src/core/threads.c \
 src/core/timers.c \
-src/core/file.c
+src/core/file.c \
+src/core/error.c
 CORE_HEADERS = include/operomnia1/keyboard.h \
 include/operomnia1/mouse.h \
 include/operomnia1/operomnia.h \
@@ -22,9 +25,10 @@ include/operomnia1/vectors.h \
 include/operomina1/memory.h \
 include/operomnia1/threads.h \
 include/operomnia1/timers.h \
-include/operomnia1/file.h
+include/operomnia1/file.h \
+include/operomnia1/error.h
 
-DRAW_PKG_CONFIG = src/draw/liboperomnia_draw.pc
+DRAW_PKG_CONFIG = src/draw/$(LIBNAME)_draw.pc
 DRAW_OBJECTS = draw.o image.o sprite.o file.o
 DRAW_C_FILES = src/draw/draw.c src/draw/image.c src/draw/sprite.c
 DRAW_HEADERS = include/operomina1/draw/draw.h \
@@ -43,6 +47,21 @@ headers:
 	# Install the header files
 	sudo cp -r include/operomnia1 /usr/local/include
 
+uninstall:
+	# Remove header files
+	-sudo rm -r /usr/local/include/operomnia1
+	-sudo rm -r /usr/include/operomnia1
+	# Remove the core library
+	-sudo rm /usr/local/lib/$(LIBNAME).a
+	-sudo rm /usr/lib/$(LIBNAME).a
+	-sudo rm /usr/lib/pkgconfig/$(LIBNAME).pc
+	# Remove the draw library
+	-sudo rm /usr/lib/$(LIBNAME)_draw.a
+	-sudo rm /usr/local/lib/$(LIBNAME)_draw.a
+	-sudo rm /usr/lib/pkgconfig/$(LIBNAME)_draw.pc
+	# Recalibrate
+	sudo ldconfig
+
 install: core draw
 	# Install the header files
 	sudo cp -r include/operomnia1 /usr/local/include
@@ -56,6 +75,9 @@ install: core draw
 	sudo cp $(LIBNAME)_draw.a /usr/local/lib
 	sudo cp $(DRAW_PKG_CONFIG) /usr/lib/pkgconfig
 	sudo ldconfig
+
+error.o: src/core/error.c include/operomnia1/error.h
+	gcc -c -I$(INCLUDE) src/core/error.c
 
 file.o: src/core/file.c include/operomnia1/file.h
 	gcc -c -I$(INCLUDE) src/core/file.c
