@@ -5,6 +5,37 @@
 #include <operomnia1/memory.h>
 #include <operomnia1/file.h>
 
+int char_to_numb( char in_char ) {
+  return in_char - '0';
+}
+
+int get_strchar_index( char * in_str, char to_find, bool backwards ) {
+  size_t str_size = strlen( in_str ) + 1;
+  if( backwards ) {
+    int i = str_size-1;
+    for(; i > 0; i-- ) {
+      if( in_str[i] == to_find ) {
+        break;
+      }
+    }
+    if( in_str[i] != to_find ) {
+      return -1;
+    }
+    return i;
+  } else {
+    int i = 0;
+    for(; i < str_size-1; i++ ) {
+      if( in_str[i] == to_find ) {
+        break;
+      }
+    }
+    if( in_str[i] != to_find ) {
+      return -1;
+    }
+    return i;
+  }
+}
+
 bool ends_with(const char *str, const char *suffix) {
     //if (!str || !suffix)
     //    return 0;
