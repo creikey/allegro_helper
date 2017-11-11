@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <operomnia1/error.h>
 #include <operomnia1/memory.h>
 #include <operomnia1/file.h>
 
 bool ends_with(const char *str, const char *suffix) {
-    if (!str || !suffix)
-        return 0;
+    //if (!str || !suffix)
+    //    return 0;
+    check_if_null( str, "in ends with function, str" );
+    check_if_null( suffix, "in ends with function, suffix" );
     size_t lenstr = strlen(str);
     size_t lensuffix = strlen(suffix);
     if (lensuffix >  lenstr)
