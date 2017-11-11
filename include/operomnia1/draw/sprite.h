@@ -23,6 +23,10 @@ typedef struct sprite {
 
 void read_frames( frame * head_frame );
 
+void free_frames( frame * in_frame );
+
+void destroy_sprite( sprite * in_sprite );
+
 // You just need a number before the .png
 sprite * load_sprite( const char * sprite_dir, float in_fps );
 
