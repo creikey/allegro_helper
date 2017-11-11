@@ -14,3 +14,7 @@ void combine_vector( vector * rec, vector in ) {
   rec->y += in.y;
   return;
 }
+
+vector add_vectors( vector v_1, vector v_2 ) {
+  return new_vector( v_1.x+v_2.x, v_1.y+v_2.y );
+}

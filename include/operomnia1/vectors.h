@@ -10,4 +10,6 @@ vector new_vector( float inx, float iny );
 
 void combine_vector( vector * rec, vector in );
 
+vector add_vectors( vector v_1, vector v_2 );
+
 #endif
