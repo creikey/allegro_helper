@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <operomnia1/timers.h>
 #include <operomnia1/memory.h>
+#include <operomnia1/error.h>
 
 op_timer * new_timer( float interval ) {
   op_timer * to_return = op_malloc( sizeof *to_return );
@@ -23,7 +24,11 @@ void resume_timer( op_timer * in_timer ) {
 }
 
 void destroy_timer( op_timer * in_timer ) {
+  if( !in_timer ) {
+    return;
+  }
   al_destroy_timer( in_timer->timer );
+  op_free( in_timer );
 }
 
 int64_t get_timer_count( op_timer * in_timer ) {
