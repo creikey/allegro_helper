@@ -55,6 +55,7 @@ void append_frame( frame * head_frame, char * in_frame_path ) {
   }
   // Actually append the frame
   data->next_frame = to_append;
+  printf( "-!- SUCCESSFULLY APPENDED SPRITE %s -!-\n", data->next_frame->frame_name );
 }
 
 void read_frames( frame * head_frame ) {
@@ -70,7 +71,7 @@ void read_frames( frame * head_frame ) {
     data = data->next_frame;
     index += 1;
   }
-  //printf( "Frame at index %d: %s\n", index, data->frame_name );
+  printf( "Last frame: %s\n", data->frame_name );
   printf( "Done reading frames!\n" );
 }
 
