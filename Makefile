@@ -41,7 +41,7 @@ core: $(CORE_OBJECTS)
 	ar rcs $(LIBNAME).a $(CORE_OBJECTS)
 
 draw: $(DRAW_OBJECTS)
-	ar rcs $(LIBNAME)_draw.a $(DRAW_OBJECTS)
+	ar rcs $(LIBNAME)_draw.a $(DRAW_OBJECTS) $(CORE_OBJECTS)
 
 headers:
 	# Install the header files
