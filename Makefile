@@ -113,6 +113,6 @@ memory.o: src/core/memory.c include/operomnia1/memory.h
 	gcc -c -I$(INCLUDE) src/core/memory.c
 
 clean:
-	-rm $(LIBNAME)_draw.a
-	-rm $(LIBNAME).a
-	-rm *.o
+	@rm $(LIBNAME)_draw.a ||:
+	@rm $(LIBNAME).a ||:
+	@rm *.o ||:
