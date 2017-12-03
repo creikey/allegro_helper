@@ -9,6 +9,7 @@ typedef ALLEGRO_BITMAP op_bitmap;
 typedef struct frame {
   op_bitmap * frame_data;
   int frame_numb;
+  bool is_head_frame;
   char * frame_name;
   struct frame * next_frame;
 } frame;
@@ -23,6 +24,8 @@ typedef struct sprite {
 
 void read_frames( frame * head_frame );
 
+sprite * sort_frames( sprite * to_sort );
+
 void free_frames( frame * in_frame );
 
 void destroy_sprite( sprite * in_sprite );
@@ -31,5 +34,7 @@ void destroy_sprite( sprite * in_sprite );
 sprite * load_sprite( const char * sprite_dir, float in_fps );
 
 void append_frame( frame * head_frame, char * in_frame_path );
+
+void add_sorted_frame( sprite * data, frame * head_frame, char * in_frame_path );
 
 #endif

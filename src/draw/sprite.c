@@ -47,6 +47,8 @@ frame * create_header_frame( const char * in_frame_path ) {
   printf( "--- Reading file %s\n", in_frame_path );
   to_return->frame_data = al_load_bitmap( in_frame_path );
   check_if_null( to_return->frame_data, "loading frame data in create_header_frame" );
+  // Make it a header frame
+  to_return->is_head_frame = true;
   //assert( to_return->frame_data = al_load_bitmap( in_frame_path ) );
   //assert( to_return->frame_data = al_load_bitmap( "test/3.png" ) );
   to_return->frame_name = op_malloc( strlen(in_frame_path)+1 );
@@ -59,9 +61,59 @@ frame * create_header_frame( const char * in_frame_path ) {
   return to_return;
 }
 
-// You just need a number before the .png
-void sort_frames( frame * head_frame ) {
-
+void add_sorted_frame( sprite * data, frame * head_frame, char * in_frame_path ) {
+  if( head_frame == NULL || in_frame_path == NULL ) {
+    fprintf( stderr, "!-! Head frame or in frame path null\n" );
+    return;
+  }
+  printf( "--- Sorting frames below...\n" );
+  read_frames( head_frame );
+  frame * to_add = op_calloc( 1, sizeof *to_add );
+  // Fix the directory
+  size_t size_path = (strlen( in_frame_path) +1) * ( sizeof(char) );
+  to_add->frame_name = op_malloc( size_path );
+  // Add it to the frame
+  memcpy( to_add->frame_name, in_frame_path, size_path );
+  // Load the sprite
+  to_add->frame_data = al_load_bitmap( in_frame_path );
+  check_if_null( to_add->frame_data, "failed to load bitmap" );
+  // Add the frame number
+  to_add->frame_numb = get_frame_numb( in_frame_path );
+  // Set the next one to null
+  to_add->next_frame = NULL;
+  // Add the frame sorted
+  frame * cur = head_frame;
+  while( cur->next_frame != NULL ) {
+    printf( "Cycling through frame %d to find a fit for %d\n", cur->frame_numb, to_add->frame_numb );
+    // If the current frame is less than the one to add
+    if( to_add->frame_numb < cur->frame_numb ) {
+      printf("It was greater than\n" );
+      break;
+    } else {
+      cur = cur->next_frame;
+    }
+  }
+  if( cur == head_frame ) {
+    if( cur->frame_numb > to_add->frame_numb ) {
+      cur->is_head_frame = false;
+      to_add->next_frame = cur;
+      to_add->is_head_frame = true;
+      data->frames = to_add;
+      return;
+    } else {
+      cur->next_frame = to_add;
+      return;
+    }
+  }
+  if( cur->next_frame == NULL ) {
+    cur->next_frame = to_add;
+    return;
+  } else {
+    frame * to_append = cur->next_frame;
+    cur->next_frame = to_add;
+    to_add->next_frame = to_append;
+    return;
+  }
 }
 
 void append_frame( frame * head_frame, char * in_frame_path ) {
@@ -73,6 +125,7 @@ void append_frame( frame * head_frame, char * in_frame_path ) {
   // Set the frame's path to the input path
   size_t size_path = (strlen( in_frame_path )+1) * ( sizeof(char) );
   to_append->frame_name = op_malloc( size_path );
+  to_append->is_head_frame = false;
   memcpy( to_append->frame_name, in_frame_path, size_path );
   //assert( to_append->frame_data = al_load_bitmap( in_frame_path ) );
   printf( "--- Appending frame %s...\n", to_append->frame_name );
@@ -98,10 +151,11 @@ void append_frame( frame * head_frame, char * in_frame_path ) {
 }
 
 void read_frames( frame * head_frame ) {
-  if( head_frame == NULL ) {
+  /*if( head_frame == NULL ) {
     fprintf( stderr, "ERROR: FRAME WAS NULL\n" );
     return;
-  }
+  }*/
+  check_if_null( head_frame, "input frame for read_frames null" );
   printf( "Reading frames...\n" );
   int index = 0;
   frame * data = head_frame;
@@ -149,8 +203,10 @@ sprite * load_sprite( const char * sprite_dir, float in_fps ) {
         if( to_return->frames == NULL ) {
           to_return->frames = create_header_frame( result );
         } else {
-          append_frame( to_return->frames, result );
+          //append_frame( to_return->frames, result );
+          add_sorted_frame( to_return, to_return->frames, result );
         }
+        to_return->amount_frames += 1;
         //op_free( result );
       }
     }
@@ -158,5 +214,9 @@ sprite * load_sprite( const char * sprite_dir, float in_fps ) {
     printf( "Dir %s was null!\n", to_prepend );
   }
   //op_free( (char*)to_prepend );
+  //sprite * really_to_return = sort_frames( to_return );
+  //sprite * really_to_return = to_return;
+  //to_delete( really_to_return );
+  //check_if_null( really_to_return, "after sorted frames" );
   return to_return;
 }
