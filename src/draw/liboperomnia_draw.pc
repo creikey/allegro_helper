@@ -1,8 +1,0 @@
-prefix=/usr/local
-version=1.0.0
-includedir=${prefix}/include
-
-Name: operomnia_draw
-Description: The draw library to help with C game development
-Version: ${version}
-Cflags: -I${includedir}/operomnia1

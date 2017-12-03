@@ -2,11 +2,12 @@ prefix=/usr/local
 version=1.0.0
 includedir=${prefix}/include
 
-Name: operomnia
-Description: A library to help with C game development
+Name: operomnia_static
+Description: A library to help with game development, static
 Version: ${version}
-Libs: -L${prefix}/lib -loperomnia -loperomnia_draw
-Libs.private: -lallegro_main-static \
+Libs: -loperomnia \
+-loperomnia_draw \
+-lallegro_main-static \
 -lallegro-static \
 -lallegro_image-static \
 -lpng -lz -ljpeg \

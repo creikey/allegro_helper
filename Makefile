@@ -1,13 +1,18 @@
 # $(shell pkg-config --libs --static allegro-static-5 allegro_primitives-static-5)
 # Dependant on platform
-INCLUDE=/home/creikey/Documents/projects/pj_software/operomnia/include
 LIBNAME=liboperomnia
+NAME=operomnia
+VERSION=1
 
-PKG_CONFIG = src/core/$(LIBNAME).pc
+PKG_CONFIG = src/core/$(NAME).pc
+STATIC_PKG_CONFIG = src/core/$(NAME)_static.pc
 CORE_OBJECTS = error.o keyboard.o mouse.o operomnia.o vectors.o memory.o \
 threads.o \
 timers.o \
 file.o
+
+MAKE_PATH=$(shell pwd)
+INCLUDE=$(MAKE_PATH)/include
 
 CORE_C_FILES = src/core/keyboard.c \
 src/core/mouse.c \
@@ -28,7 +33,6 @@ include/operomnia1/timers.h \
 include/operomnia1/file.h \
 include/operomnia1/error.h
 
-DRAW_PKG_CONFIG = src/draw/$(LIBNAME)_draw.pc
 DRAW_OBJECTS = draw.o image.o sprite.o file.o
 DRAW_C_FILES = src/draw/draw.c src/draw/image.c src/draw/sprite.c
 DRAW_HEADERS = include/operomina1/draw/draw.h \
@@ -45,35 +49,35 @@ draw: $(DRAW_OBJECTS)
 
 headers:
 	# Install the header files
-	sudo cp -r include/operomnia1 /usr/local/include
+	sudo cp -r include/$(NAME)$(VERSION) /usr/local/include
 
 uninstall:
 	# Remove header files
-	-sudo rm -r /usr/local/include/operomnia1
-	-sudo rm -r /usr/include/operomnia1
+	-sudo rm -r /usr/local/include/$(NAME)$(VERSION)
+	-sudo rm -r /usr/include/$(NAME)$(VERSION)
 	# Remove the core library
 	-sudo rm /usr/local/lib/$(LIBNAME).a
 	-sudo rm /usr/lib/$(LIBNAME).a
-	-sudo rm /usr/lib/pkgconfig/$(LIBNAME).pc
+	-sudo rm /usr/lib/pkgconfig/$(NAME).pc
+	-sudo rm /usr/lib/pkgconfig/$(NAME)_static.pc
 	# Remove the draw library
 	-sudo rm /usr/lib/$(LIBNAME)_draw.a
 	-sudo rm /usr/local/lib/$(LIBNAME)_draw.a
-	-sudo rm /usr/lib/pkgconfig/$(LIBNAME)_draw.pc
 	# Recalibrate
 	sudo ldconfig
 
 install: core draw
 	# Install the header files
-	sudo cp -r include/operomnia1 /usr/local/include
-	sudo cp -r include/operomnia1 /usr/include
+	sudo cp -r include/$(NAME)$(VERSION) /usr/local/include
+	sudo cp -r include/$(NAME)$(VERSION) /usr/include
 	# Install the core library
 	sudo cp $(LIBNAME).a /usr/local/lib
 	sudo cp $(LIBNAME).a /usr/lib
 	sudo cp $(PKG_CONFIG) /usr/lib/pkgconfig
+	sudo cp $(STATIC_PKG_CONFIG) /usr/lib/pkgconfig
 	# Install the draw library
 	sudo cp $(LIBNAME)_draw.a /usr/lib
 	sudo cp $(LIBNAME)_draw.a /usr/local/lib
-	sudo cp $(DRAW_PKG_CONFIG) /usr/lib/pkgconfig
 	sudo ldconfig
 
 error.o: src/core/error.c include/operomnia1/error.h

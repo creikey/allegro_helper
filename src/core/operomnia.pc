@@ -1,0 +1,9 @@
+prefix=/usr/local
+version=1.0.0
+includedir=${prefix}/include
+
+Name: operomnia
+Description: A library to help with C game development
+Version: ${version}
+Libs: -L${prefix}/lib -loperomnia -loperomnia_draw -lallegro -lallegro_primitives -lallegro_image
+Cflags: -I${includedir}/operomnia1
