@@ -6,12 +6,11 @@ Name: operomnia_static
 Description: A library to help with game development, static
 Version: ${version}
 Libs: -loperomnia \
--loperomnia_draw \
--lallegro_main-static \
--lallegro-static \
--lallegro_image-static \
--lpng -lz -ljpeg \
--lallegro_primitives-static \
--lXi -lXpm -lm -lpthread -lSM -lICE -lX11 \
--lXext -lXcursor -lXinerama -lXrandr -lGL -lGLU
+-loperomnia_draw
+
+Requires.private: allegro_main-static-5 \
+allegro_image-static-5 \
+allegro_primitives-static-5 \
+allegro_font-static-5
+
 Cflags: -I${includedir}/operomnia1
