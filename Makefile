@@ -23,21 +23,22 @@ src/core/threads.c \
 src/core/timers.c \
 src/core/file.c \
 src/core/error.c
-CORE_HEADERS = include/operomnia1/keyboard.h \
-include/operomnia1/mouse.h \
-include/operomnia1/operomnia.h \
-include/operomnia1/vectors.h \
-include/operomina1/memory.h \
-include/operomnia1/threads.h \
-include/operomnia1/timers.h \
-include/operomnia1/file.h \
-include/operomnia1/error.h
+CORE_HEADERS = include/operomnia$(VERSION)/keyboard.h \
+include/operomnia$(VERSION)/mouse.h \
+include/operomnia$(VERSION)/operomnia.h \
+include/operomnia$(VERSION)/vectors.h \
+include/operomina$(VERSION)/memory.h \
+include/operomnia$(VERSION)/threads.h \
+include/operomnia$(VERSION)/timers.h \
+include/operomnia$(VERSION)/file.h \
+include/operomnia$(VERSION)/error.h
 
-DRAW_OBJECTS = draw.o image.o sprite.o file.o
-DRAW_C_FILES = src/draw/draw.c src/draw/image.c src/draw/sprite.c
+DRAW_OBJECTS = draw.o image.o sprite.o file.o text.o
+DRAW_C_FILES = src/draw/draw.c src/draw/image.c src/draw/sprite.c src/draw/text.c
 DRAW_HEADERS = include/operomina1/draw/draw.h \
-include/operomina1/draw/image.h \
-include/operomnia1/draw/sprite.h
+include/operomina$(VERSION)/draw/image.h \
+include/operomnia$(VERSION)/draw/sprite.h \
+include/operomnia$(VERSION)/draw/text.h
 
 .PHONY: clean headers
 
