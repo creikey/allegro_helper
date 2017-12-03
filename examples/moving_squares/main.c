@@ -26,6 +26,7 @@ int main( void ) {
         break;
     }
     if( quit ) {
+      printf( "quitting\n" );
       break;
     }
   }
