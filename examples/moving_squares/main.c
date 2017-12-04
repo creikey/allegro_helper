@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <operomnia1/operomnia.h>
 #include <operomnia1/error.h>
+#include <operomnia1/draw/text.h>
 #include <operomnia1/draw/draw.h>
 
 #define default_clear_color new_color(100,100,100)
@@ -97,6 +98,7 @@ void game_loop( operomnia_data * in_data ) {
   combine_vector( &square_pos, square_vel );
   limit_square( &square_pos );
   draw_square( square_pos );
+
 
   draw_all();
 }
