@@ -16,7 +16,7 @@ typedef struct _image {
   // Original scale
   vector original_scale;
   // Scale value
-  float scale_influence;
+  vector scale_influence;
   // Is it rotated?
   bool rotate;
   // Is it scaled?
@@ -26,7 +26,7 @@ typedef struct _image {
   int draw_flags;
 } image;
 
-image * load_image( char * filepath, bool flip_x, bool flip_y );
+image * load_image( const char * filepath, bool flip_x, bool flip_y );
 
 void rotate_image( image * in_image, float percent );
 
@@ -38,7 +38,7 @@ void flip_image( image * in_image, bool flip_x, bool flip_y );
 
 void free_image( image * in_image );
 
-void scale_image( image * in_image, float scale_fact );
+void scale_image( image * in_image, vector scale_fact );
 
 void draw_image( image * in_image, vector pos );
 
