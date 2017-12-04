@@ -34,7 +34,10 @@ include/operomnia$(VERSION)/file.h \
 include/operomnia$(VERSION)/error.h
 
 DRAW_OBJECTS = draw.o image.o sprite.o file.o text.o
-DRAW_C_FILES = src/draw/draw.c src/draw/image.c src/draw/sprite.c src/draw/text.c
+DRAW_C_FILES = src/draw/draw.c \
+src/draw/image.c \
+src/draw/sprite.c \
+src/draw/text.c
 DRAW_HEADERS = include/operomina1/draw/draw.h \
 include/operomina$(VERSION)/draw/image.h \
 include/operomnia$(VERSION)/draw/sprite.h \
@@ -81,40 +84,43 @@ install: core draw
 	sudo cp $(LIBNAME)_draw.a /usr/local/lib
 	sudo ldconfig
 
-error.o: src/core/error.c include/operomnia1/error.h
+text.o: src/draw/text.c include/operomnia$(VERSION)/draw/text.h
+	gcc -c -I$(INCLUDE) src/draw/text.c
+
+error.o: src/core/error.c include/operomnia$(VERSION)/error.h
 	gcc -c -I$(INCLUDE) src/core/error.c
 
-file.o: src/core/file.c include/operomnia1/file.h
+file.o: src/core/file.c include/operomnia$(VERSION)/file.h
 	gcc -c -I$(INCLUDE) src/core/file.c
 
-timers.o: src/core/timers.c include/operomnia1/threads.h
+timers.o: src/core/timers.c include/operomnia$(VERSION)/threads.h
 	gcc -c -I$(INCLUDE) src/core/timers.c
 
-sprite.o: src/draw/sprite.c include/operomnia1/draw/sprite.h
+sprite.o: src/draw/sprite.c include/operomnia$(VERSION)/draw/sprite.h
 	gcc -c -I$(INCLUDE) src/draw/sprite.c
 
-threads.o: src/core/threads.c include/operomnia1/threads.h
+threads.o: src/core/threads.c include/operomnia$(VERSION)/threads.h
 	gcc -c -I$(INCLUDE) src/core/threads.c
 
-image.o: src/draw/image.c include/operomnia1/draw/image.h
+image.o: src/draw/image.c include/operomnia$(VERSION)/draw/image.h
 	gcc  -c -I$(INCLUDE) src/draw/image.c
 
-draw.o: src/draw/draw.c include/operomnia1/draw/draw.h
+draw.o: src/draw/draw.c include/operomnia$(VERSION)/draw/draw.h
 	gcc -c -I$(INCLUDE) src/draw/draw.c
 
-keyboard.o: src/core/keyboard.c include/operomnia1/keyboard.h
+keyboard.o: src/core/keyboard.c include/operomnia$(VERSION)/keyboard.h
 	gcc -c -I$(INCLUDE) src/core/keyboard.c
 
-mouse.o: src/core/mouse.c include/operomnia1/mouse.h
+mouse.o: src/core/mouse.c include/operomnia$(VERSION)/mouse.h
 	gcc -c -I$(INCLUDE) src/core/mouse.c
 
-operomnia.o: src/core/operomnia.c include/operomnia1/operomnia.h
+operomnia.o: src/core/operomnia.c include/operomnia$(VERSION)/operomnia.h
 	gcc -c -I$(INCLUDE) src/core/operomnia.c
 
-vectors.o: src/core/vectors.o include/operomnia1/vectors.h
+vectors.o: src/core/vectors.o include/operomnia$(VERSION)/vectors.h
 	gcc -c -I$(INCLUDE) src/core/vectors.c
 
-memory.o: src/core/memory.c include/operomnia1/memory.h
+memory.o: src/core/memory.c include/operomnia$(VERSION)/memory.h
 	gcc -c -I$(INCLUDE) src/core/memory.c
 
 clean:
