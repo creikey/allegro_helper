@@ -5,7 +5,7 @@ includedir=${prefix}/include
 Name: operomnia
 Description: A library to help with C game development
 Version: ${version}
-Libs: -L${prefix}/lib -loperomnia -loperomnia_draw
+Libs: -L${prefix}/lib -loperomnia -loperomnia_draw -lm
 
 Requires: allegro_main-5 \
 allegro_image-5 \

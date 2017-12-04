@@ -33,15 +33,24 @@ include/operomnia$(VERSION)/timers.h \
 include/operomnia$(VERSION)/file.h \
 include/operomnia$(VERSION)/error.h
 
-DRAW_OBJECTS = draw.o image.o sprite.o file.o text.o
+DRAW_OBJECTS = draw.o \
+image.o \
+sprite.o \
+file.o \
+text.o \
+svg.o
 DRAW_C_FILES = src/draw/draw.c \
 src/draw/image.c \
 src/draw/sprite.c \
-src/draw/text.c
+src/draw/text.c \
+src/draw/svg.c
+
 DRAW_HEADERS = include/operomina1/draw/draw.h \
 include/operomina$(VERSION)/draw/image.h \
 include/operomnia$(VERSION)/draw/sprite.h \
-include/operomnia$(VERSION)/draw/text.h
+include/operomnia$(VERSION)/draw/text.h \
+include/operomnia$(VERSION)/draw/svg.h
+
 
 .PHONY: clean headers
 
@@ -83,6 +92,9 @@ install: core draw
 	sudo cp $(LIBNAME)_draw.a /usr/lib
 	sudo cp $(LIBNAME)_draw.a /usr/local/lib
 	sudo ldconfig
+
+svg.o: src/draw/svg.c include/operomnia$(VERSION)/draw/svg.h src/draw/nanosvg.h src/draw/nanosvgrast.h
+	gcc -c -I$(INCLUDE) src/draw/svg.c
 
 text.o: src/draw/text.c include/operomnia$(VERSION)/draw/text.h
 	gcc -c -I$(INCLUDE) src/draw/text.c
