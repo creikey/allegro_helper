@@ -25,8 +25,21 @@ image * load_image( const char * filepath, bool flip_x, bool flip_y ) {
   to_return->scale_influence = new_vector(1,1);
   to_return->rotate = false;
   to_return->scale = false;
+  to_return->alpha = 1.0;
   to_return->rotation = 0.0;
   return to_return;
+}
+
+void change_image_opacity( image * in_image, float new_opacity ) {
+  if( new_opacity > 1 ) {
+    in_image->alpha = 1;
+  } else {
+    in_image->alpha = new_opacity;
+  }
+}
+
+float get_image_opacity( image * in_image ) {
+  return in_image->alpha;
 }
 
 void rotate_image( image * in_image, float percent ) {
@@ -44,6 +57,8 @@ void flip_image( image * in_image, bool flip_x, bool flip_y ) {
     in_image->draw_flags += ALLEGRO_FLIP_HORIZONTAL;
   }
 }
+
+
 
 // Frees the image properly
 void free_image( image * in_image ) {
@@ -90,4 +105,16 @@ void draw_image( image * in_image, vector pos ) {
   return;
   }
   al_draw_bitmap( in_image->image_data, pos.x, pos.y, in_image->draw_flags );
+}
+
+vector get_image_dimensions( image * in_image ) {
+  return new_vector( al_get_bitmap_width( in_image->image_data ), al_get_bitmap_height( in_image->image_data ) );
+}
+
+void set_image_pivot_point( image * in_image, vector new_pos ) {
+  in_image->pivot_point = new_pos;
+}
+
+vector get_image_pivot_point( image * in_image ) {
+  return in_image->pivot_point;
 }

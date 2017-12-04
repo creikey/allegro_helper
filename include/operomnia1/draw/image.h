@@ -17,6 +17,8 @@ typedef struct _image {
   vector original_scale;
   // Scale value
   vector scale_influence;
+  // Opacity
+  float alpha;
   // Is it rotated?
   bool rotate;
   // Is it scaled?
@@ -41,5 +43,11 @@ void free_image( image * in_image );
 void scale_image( image * in_image, vector scale_fact );
 
 void draw_image( image * in_image, vector pos );
+
+vector get_image_dimensions( image * in_image );
+
+void set_image_pivot_point( image * in_image, vector new_pos );
+
+vector get_image_pivot_point( image * in_image );
 
 #endif
