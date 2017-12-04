@@ -11,6 +11,7 @@ Libs: -loperomnia \
 Requires.private: allegro_main-static-5 \
 allegro_image-static-5 \
 allegro_primitives-static-5 \
-allegro_font-static-5
+allegro_font-static-5 \
+allegro_ttf-static-5
 
 Cflags: -I${includedir}/operomnia1
