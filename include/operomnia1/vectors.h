@@ -12,4 +12,8 @@ void combine_vector( vector * rec, vector in );
 
 vector add_vectors( vector v_1, vector v_2 );
 
+vector subtract_vectors( vector to_sub_from, vector subtractor );
+
+vector multiply_vectors( vector v_1, vector v_2 );
+
 #endif
