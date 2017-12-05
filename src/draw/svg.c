@@ -35,6 +35,7 @@ vector get_svg_dimensions( svg * in_svg ) {
   return new_vector( in_svg->image->width, in_svg->image->height );
 }
 
+// Really shitty 10 line svg rasterizer
 void draw_svg( svg * in_svg, op_color outline_color, vector pos, float thickness ) {
   NSVGshape * shape;
   NSVGpath * path;
