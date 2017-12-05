@@ -19,6 +19,12 @@ void draw_line( vector start_vector, vector end_vector, op_color in_c, float in_
   al_draw_line( start_vector.x, start_vector.y, end_vector.x, end_vector.y, in_c, in_thick );
 }
 
+void draw_cubic_bez( vector offset, vector p_0, vector p_1, vector p_2, vector p_3, op_color in_color, float thickness ) {
+  draw_line( a_v(p_0, offset), a_v(p_1, offset), in_color, thickness );
+  draw_line( a_v(p_1, offset), a_v(p_2, offset), in_color, thickness );
+  draw_line( a_v(p_2, offset), a_v(p_3, offset), in_color, thickness );
+}
+
 void draw_triangle( vector v_1, vector v_2, vector v_3, op_color in_c, float in_thick ) {
     al_draw_triangle( v_1.x, v_1.y, v_2.x, v_2.y, v_3.x, v_3.y, in_c, in_thick );
 }
