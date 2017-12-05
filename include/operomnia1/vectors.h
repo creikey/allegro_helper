@@ -16,4 +16,7 @@ vector subtract_vectors( vector to_sub_from, vector subtractor );
 
 vector multiply_vectors( vector v_1, vector v_2 );
 
+#define v new_vector
+#define a_v add_vectors
+
 #endif
