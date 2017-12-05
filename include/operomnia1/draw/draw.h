@@ -21,6 +21,8 @@ void draw_line( vector start_vector, vector end_vector, op_color in_c, float in_
 
 void draw_triangle( vector v_1, vector v_2, vector v_3, op_color in_c, float in_thick );
 
+void draw_cubic_bez( vector offset, vector p_0, vector p_1, vector p_2, vector p_3, op_color in_color, float thickness );
+
 void draw_triangle_filled( vector v_1, vector v_2, vector v_3, op_color in_c );
 
 void draw_rectangle( vector v_1, vector v_2, op_color in_c, float in_thick );

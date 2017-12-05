@@ -81,7 +81,7 @@ mouse.o: src/core/mouse.c include/operomnia1/mouse.h
 operomnia.o: src/core/operomnia.c include/operomnia1/operomnia.h
 	gcc -c -I$(INCLUDE) src/core/operomnia.c
 
-vectors.o: src/core/vectors.o include/operomnia$(VERSION)/vectors.h
+vectors.o: src/core/vectors.c include/operomnia1/vectors.h
 	gcc -c -I$(INCLUDE) src/core/vectors.c
 
 memory.o: src/core/memory.c include/operomnia1/memory.h

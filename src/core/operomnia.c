@@ -2,6 +2,8 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 #include <operomnia1/operomnia.h>
 
 void zero_bool( bool * in_bool, int size ) {
@@ -39,6 +41,10 @@ void init_op( operomnia_data * in_data, float display_x, float display_y, bool a
   al_init_primitives_addon();
   // Initialize the allegro image addon
   al_init_image_addon();
+  // Initialize the font addon
+  al_init_font_addon();
+  // Initialize the ttf addon
+  al_init_ttf_addon();
   // Register the timer as an event source
   al_register_event_source( in_data->event_queue, al_get_timer_event_source( in_data->fps_time ) );
   // Register the display as an event source
@@ -56,8 +62,15 @@ void init_op( operomnia_data * in_data, float display_x, float display_y, bool a
 }
 
 void exit_op( operomnia_data * in_data ) {
+  // Destroy the fps timer
   al_destroy_timer( in_data->fps_time );
+  // Shutdown the font addon
+  al_shutdown_font_addon();
+  // Shutdown the ttf addon
+  al_shutdown_ttf_addon();
+  // Destroy the display
   al_destroy_display( in_data->display );
+  // Destroy the event queue
   al_destroy_event_queue( in_data->event_queue );
 }
 

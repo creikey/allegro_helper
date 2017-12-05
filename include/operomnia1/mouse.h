@@ -2,6 +2,7 @@
 #define H_MOUSE
 
 #include <stdio.h>
+#include <stdbool.h>
 #include "vectors.h"
 
 typedef struct _mouse_buttons {
