@@ -13,7 +13,7 @@ void init_game( operomnia_data * in_data );
 
 int main( void ) {
   operomnia_data * data = malloc( sizeof *data );
-  init_op( data, 900,900, false, ALLEGRO_WINDOWED, 60, 255,255,0 );
+  init_op( data, 900,900, true, ALLEGRO_WINDOWED, 60, 255,255,0 );
   bool quit = false;
   init_game(data);
   while( true ) {
