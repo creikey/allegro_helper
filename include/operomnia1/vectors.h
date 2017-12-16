@@ -18,7 +18,11 @@ vector multiply_vectors( vector v_1, vector v_2 );
 
 vector divide_vectors( vector v_1, vector v_2 );
 
+vector divide_vector( vector in_v, double scalar );
+
 #define v new_vector
 #define a_v add_vectors
+#define d_v divide_vector
+#define d_vs divide_vectors
 
 #endif

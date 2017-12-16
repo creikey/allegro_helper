@@ -15,6 +15,10 @@ void combine_vector( vector * rec, vector in ) {
   return;
 }
 
+vector divide_vector( vector in_v, double scalar ) {
+  return v( in_v.x/scalar, in_v.y/scalar );
+}
+
 vector subtract_vectors( vector to_sub_from, vector subtractor ) {
   return new_vector( to_sub_from.x - subtractor.x, to_sub_from.y - subtractor.y );
 }
