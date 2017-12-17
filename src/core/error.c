@@ -25,6 +25,10 @@ void print_message( const char * to_print, const char * filename, const char * i
   return;
 }
 
+void print_general_pointer( void * to_print ) {
+  fprintf( stderr, "%lu", (long unsigned int)to_print );
+}
+
 void print_general_constant_string( const char * to_print ) {
   fprintf( stderr, "%s", to_print );
 }

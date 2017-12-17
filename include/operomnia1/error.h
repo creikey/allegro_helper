@@ -19,6 +19,8 @@ void print_general_float( float to_print );
 
 void print_general_int( int to_print );
 
+void print_general_pointer( void * to_print );
+
 void close_general_error();
 
 #define message(x, close) print_message( x, __FILE__, __func__, __LINE__, close );
@@ -31,12 +33,6 @@ void close_general_error();
 
 #define OPEN false
 
-// Depreceated
-#define raise_error(x,y) error("error here", CLOSE)
-#define check_if_null(x,y) if(x==NULL) {\
-error("null pointer",CLOSE);\
-}
-
 #define eg_cs(x) print_general_constant_string(x)
 
 #define eg_s(x) print_general_string(x)
@@ -46,6 +42,8 @@ error("null pointer",CLOSE);\
 #define eg_f(x) print_general_float(x)
 
 #define eg_i(x) print_general_int(x)
+
+#define eg_p(x) print_general_pointer(x)
 
 #define eg_close() close_general_error()
 
