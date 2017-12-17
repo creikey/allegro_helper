@@ -23,6 +23,7 @@ src/core/threads.c \
 src/core/timers.c \
 src/core/file.c \
 src/core/error.c
+
 CORE_HEADERS = include/operomnia$(VERSION)/keyboard.h \
 include/operomnia$(VERSION)/mouse.h \
 include/operomnia$(VERSION)/operomnia.h \
