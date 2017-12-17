@@ -23,8 +23,8 @@ int get_strchar_index( char * in_str, char to_find, bool backwards ) {
     }
     return i;
   } else {
-    int i = 0;
-    for(; i < str_size-1; i++ ) {
+    size_t i;
+    for( i = 0; i < str_size-1; i++ ) {
       if( in_str[i] == to_find ) {
         break;
       }
@@ -39,8 +39,14 @@ int get_strchar_index( char * in_str, char to_find, bool backwards ) {
 bool ends_with(const char *str, const char *suffix) {
     //if (!str || !suffix)
     //    return 0;
-    check_if_null( str, "in ends with function, str" );
-    check_if_null( suffix, "in ends with function, suffix" );
+    //check_if_null( str, "in ends with function, str" );
+    //check_if_null( suffix, "in ends with function, suffix" );
+    if( str == NULL ) {
+      error( "variable str is null", CLOSE );
+    }
+    if( suffix == NULL ) {
+      error( "suffix is null", CLOSE );
+    }
     size_t lenstr = strlen(str);
     size_t lensuffix = strlen(suffix);
     if (lensuffix >  lenstr)

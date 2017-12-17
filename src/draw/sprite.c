@@ -17,7 +17,11 @@ int get_frame_numb( char * in_path ) {
 }
 
 void free_frames( frame * in_frame ) {
-  check_if_null( in_frame, "error freeing frames, in frame was null" );
+  //check_if_null( in_frame, "error freeing frames, in frame was null" );
+  if( in_frame == NULL ) {
+    error( "in frame is null", CLOSE );
+    return;
+  }
   frame * to_destroy = in_frame;
   frame * to_free;
   while( to_destroy->next_frame != NULL ) {
@@ -33,7 +37,10 @@ void free_frames( frame * in_frame ) {
 }
 
 void destroy_sprite( sprite * in_sprite ) {
-  check_if_null( in_sprite, "error freeing sprite, sprite was null" );
+  // check_if_null( in_sprite, "error freeing sprite, sprite was null" );
+  if( in_sprite == NULL ) {
+    error( "cannot free sprite, is null", CLOSE );
+  }
   destroy_timer( in_sprite->anim_timer );
   free_frames( in_sprite->frames );
   op_free( in_sprite );
@@ -42,11 +49,21 @@ void destroy_sprite( sprite * in_sprite ) {
 frame * create_header_frame( const char * in_frame_path ) {
   // Create the initial memory
   frame * to_return = op_calloc( 1, sizeof *to_return );
-  check_if_null( to_return, "create header frame" );
+  //check_if_null( to_return, "create header frame" );
+  if( to_return == NULL ) {
+    error( "error callocing to_return", CLOSE );
+    return NULL;
+  }
   //Initialize the values
   printf( "--- Reading file %s\n", in_frame_path );
   to_return->frame_data = al_load_bitmap( in_frame_path );
-  check_if_null( to_return->frame_data, "loading frame data in create_header_frame" );
+  //check_if_null( to_return->frame_data, "loading frame data in create_header_frame" );
+  if( to_return->frame_data == NULL ) {
+    error( "Couldn't load frame bitmap for path '", OPEN );
+    eg_cs( in_frame_path );
+    eg_cs("'");
+    eg_close();
+  }
   // Make it a header frame
   to_return->is_head_frame = true;
   //assert( to_return->frame_data = al_load_bitmap( in_frame_path ) );
@@ -76,7 +93,10 @@ void add_sorted_frame( sprite * data, frame * head_frame, char * in_frame_path )
   memcpy( to_add->frame_name, in_frame_path, size_path );
   // Load the sprite
   to_add->frame_data = al_load_bitmap( in_frame_path );
-  check_if_null( to_add->frame_data, "failed to load bitmap" );
+  // check_if_null( to_add->frame_data, "failed to load bitmap" );
+  if( to_add->frame_data == NULL ) {
+    error( "failed to load bitmap", CLOSE );
+  }
   // Add the frame number
   to_add->frame_numb = get_frame_numb( in_frame_path );
   // Set the next one to null
@@ -118,7 +138,13 @@ void add_sorted_frame( sprite * data, frame * head_frame, char * in_frame_path )
 
 void append_frame( frame * head_frame, char * in_frame_path ) {
   if( head_frame == NULL || in_frame_path == NULL ) {
-    raise_error( ERR_NULL_PTR, "ln 30 append_frame" );
+    //raise_error( ERR_NULL_PTR, "ln 30 append_frame" );
+    error( "Null values passed. Vals: \n", OPEN );
+    eg_cs( "head_frame: " );
+    eg_p( head_frame );
+    eg_cs( "\nin_frame_path: " );
+    eg_p( in_frame_path );
+    eg_close();
   }
   // Create the main frame to append
   frame * to_append = op_calloc( 1, sizeof *to_append );
@@ -131,7 +157,12 @@ void append_frame( frame * head_frame, char * in_frame_path ) {
   printf( "--- Appending frame %s...\n", to_append->frame_name );
   // Make sure that the directory is valid
   to_append->frame_data = al_load_bitmap( in_frame_path );
-  check_if_null( to_append->frame_data, "append_frame frame_data" );
+  //check_if_null( to_append->frame_data, "append_frame frame_data" );
+  if( to_append->frame_data == NULL ) {
+    error( "frame data couldn't be loaded for path ", OPEN );
+    eg_cs( in_frame_path );
+    eg_close();
+  }
   // Create the pointer to traverse the linked list of frames
   frame * data = head_frame;
   int index = 0;
@@ -142,7 +173,8 @@ void append_frame( frame * head_frame, char * in_frame_path ) {
     index += 1;
   }
   if( data == NULL ) {
-    raise_error( ERR_NULL_PTR, "data was null" );
+    //raise_error( ERR_NULL_PTR, "data was null" );
+    error( "data is null for the frame", CLOSE );
   }
   // Actually append the frame
   to_append->frame_numb = get_frame_numb( in_frame_path );
@@ -155,7 +187,11 @@ void read_frames( frame * head_frame ) {
     fprintf( stderr, "ERROR: FRAME WAS NULL\n" );
     return;
   }*/
-  check_if_null( head_frame, "input frame for read_frames null" );
+  //check_if_null( head_frame, "input frame for read_frames null" );
+  if( head_frame == NULL ) {
+    error( "head frame is null", CLOSE );
+    return;
+  }
   printf( "Reading frames...\n" );
   int index = 0;
   frame * data = head_frame;
@@ -171,7 +207,7 @@ void read_frames( frame * head_frame ) {
 sprite * load_sprite( const char * sprite_dir, float in_fps ) {
   // Create the initial memory for the sprite
   sprite * to_return = op_calloc( 1, sizeof *to_return );
-  check_if_null( to_return, "load_sprite after malloc" );
+  //check_if_null( to_return, "load_sprite after malloc" );
   // Set some base values
   to_return->current_frame = 0;
   to_return->amount_frames = 0;
@@ -180,7 +216,10 @@ sprite * load_sprite( const char * sprite_dir, float in_fps ) {
 
   // Make the directory better
   const char * to_prepend = fix_directory( sprite_dir );
-  check_if_null( (char*)to_prepend, "fix directory name" );
+  //check_if_null( (char*)to_prepend, "fix directory name" );
+  if( to_prepend == NULL ) {
+    error( "Couldn't fix the directory name", CLOSE );
+  }
   //printf( "Opening dir %s\n", to_prepend );
   // Basic datatypes to look in the directory
   DIR *dir;
